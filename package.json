@@ -2,6 +2,7 @@
   "name": "hide-and-seek",
   "version": "0.1.0",
   "private": true,
+  "main": "functions/lib/firebaseFunctions.js",
   "scripts": {
     "dev": "next src/",
     "build": "next build src/",

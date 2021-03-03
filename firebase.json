@@ -10,7 +10,7 @@
     ]
   },
   "functions": {
-    "source": "functions",
+    "source": ".",
     "predeploy": [
       "npm run build-functions"
     ],
