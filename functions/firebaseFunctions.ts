@@ -1,9 +1,9 @@
 interface Functions {
   [key: string]: string;
 }
-  
+
 const funcs: Functions = {
-  nextjsFunc: ".functions/nextjsFunc",
+  nextjsFunc: "./nextjsFunc",
 };
 
 for (let name in funcs) {

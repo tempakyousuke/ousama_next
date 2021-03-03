@@ -2,7 +2,7 @@ const { join } = require('path')
 import * as functions from "firebase-functions";
 const { default: next } = require('next')
 
-const nextjsDistDir = join('/hide-and-seek/', require('./src/next.config.js').distDir)
+const nextjsDistDir = join('../src/', require('./src/next.config.js').distDir)
 
 const nextjsServer = next({
   dev: false,

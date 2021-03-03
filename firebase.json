@@ -10,9 +10,9 @@
     ]
   },
   "functions": {
-    "source": ".",
+    "source": "functions",
     "predeploy": [
-      "npm --prefix \"$PROJECT_DIR\" run build"
+      "npm run build-functions"
     ],
     "runtime": "nodejs10"
   }
