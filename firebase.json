@@ -10,7 +10,7 @@
     ]
   },
   "functions": {
-    "source": "functions",
+    "source": ".",
     "predeploy": [
       "npm --prefix \"$PROJECT_DIR\" run build"
     ],

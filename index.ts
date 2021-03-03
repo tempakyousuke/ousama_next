@@ -3,7 +3,7 @@ interface Functions {
 }
   
 const funcs: Functions = {
-  nextjsFunc: "./nextjsFunc",
+  nextjsFunc: ".functions/nextjsFunc",
 };
 
 for (let name in funcs) {
