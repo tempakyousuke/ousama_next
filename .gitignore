@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+functions/lib
+
+# emulator
+ui-debug.log
+firebase-debug.log
