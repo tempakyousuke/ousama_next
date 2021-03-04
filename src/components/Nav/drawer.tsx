@@ -1,3 +1,5 @@
+import AccordionMenu from "./accordionMenu"
+
 function Drawer(props) {
   let contentClass = "content";
   contentClass += props.open ? " open": "";
@@ -11,7 +13,9 @@ function Drawer(props) {
 
   return (
     <div className="relative">
-      <div className={contentClass}></div>
+      <div className={contentClass}>
+        <AccordionMenu />
+      </div>
       <div className={overlayClass} onClick={props.close} />
       <style jsx>{`
         .content {

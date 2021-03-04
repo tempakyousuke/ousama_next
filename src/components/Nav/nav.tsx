@@ -7,7 +7,7 @@ function Nav() {
   let closeDrawer = () => { setOpen(false) };
 
   return (
-    <div className="w-full bg-warmGray-200 text-amber-900 shadow-2xl">
+    <div className="w-full bg-warmGray-200 text-amber-1100 shadow-2xl">
       <div className="flex flex-col max-w-screen-xl px-4 mx-auto">
         <div className="p-4 flex flex-row items-center justify-between">
           <Link href="/">

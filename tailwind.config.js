@@ -16,7 +16,14 @@ module.exports = {
       lime: colors.lime,
       warmGray: colors.warmGray,
     },
-    extend: {},
+    extend: {
+      colors: {
+        amber: {
+          1000: '#642c0d',
+          1100: '#50230a',
+        },
+      },
+    },
   },
   variants: {
     extend: {},
