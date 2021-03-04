@@ -4,7 +4,7 @@ function Layout({children}) {
   return (
     <div>
       <Nav />
-      <div className="bg-amber-100">
+      <div className="bg-amber-50">
       {children}
       </div>
     </div>
