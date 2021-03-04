@@ -14,7 +14,7 @@ function Drawer(props) {
   return (
     <div className="relative">
       <div className={contentClass}>
-        <AccordionMenu />
+        <AccordionMenu closeDrawer={props.close} />
       </div>
       <div className={overlayClass} onClick={props.close} />
       <style jsx>{`

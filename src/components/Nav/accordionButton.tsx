@@ -13,12 +13,12 @@ function AccordionButton(props) {
     <div className="accordion">
       <div className={parentClass} onClick={() => { setOpen(!open); }}>
         {props.item.label}
-        <FontAwesomeIcon icon={faChevronDown} />
+        <FontAwesomeIcon className="w-4 ml-2 fontawesome" icon={faChevronDown} />
       </div>
       <ul className="submenu">
         {props.item.children.map(value => {
           return (
-            <li className={liClass}>
+            <li className={liClass} key={value.to}>
               <Link href={value.to}>
                 <a className="link" onClick={props.closeDrawer}>{value.label}</a>
               </Link>
@@ -35,7 +35,7 @@ function AccordionButton(props) {
           cursor: pointer;
           display: block;
           padding: 15px 15px 15px 42px;
-          font-size: 1.2rem;
+          font-size: 1.25rem;
           font-weight: 600;
           border-bottom: 1px solid #ccc;
           position: relative;
@@ -46,7 +46,7 @@ function AccordionButton(props) {
           border-bottom: 0;
         }
 
-        .accordion .parent >>> svg {
+        .accordion .parent :global(.fontawesome) {
           position: absolute;
           top: 1.3rem;
           right: 1.3rem;
@@ -55,7 +55,7 @@ function AccordionButton(props) {
           transition: all 0.4s ease;
         }
 
-        .accordion .open >>> svg.fa-chevron-down {
+        .accordion .open :global(.fontawesome) {
           transform: rotate(180deg);
         }
 
@@ -83,7 +83,7 @@ function AccordionButton(props) {
         }
 
         .submenu a:hover {
-          background: #bbb;
+          background: #ccc;
         }
       `}</style>
     </div>
