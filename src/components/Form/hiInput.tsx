@@ -11,7 +11,7 @@ type InputProps = {
   setValue: Function
 }
 
-class TsInput extends React.Component<InputProps, {}> {
+class HiInput extends React.Component<InputProps, {}> {
 
   static defaultProps = {
     labelCols: '',
@@ -97,4 +97,4 @@ class TsInput extends React.Component<InputProps, {}> {
 
 
 
-export default TsInput
+export default HiInput
