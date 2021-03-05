@@ -1,34 +1,33 @@
-import React from 'react'
+import React from "react";
 
 type InputProps = {
-  labelCols: string | number,
-  requiredLabel: boolean,
-  label: string,
-  errorMessage: string,
-  invalid: boolean,
-  disabled: boolean,
-  type: string,
-  setValue: Function
-}
+  labelCols: string | number;
+  requiredLabel: boolean;
+  label: string;
+  errorMessage: string;
+  invalid: boolean;
+  disabled: boolean;
+  type: string;
+  handleChange: Function;
+};
 
 class HiInput extends React.Component<InputProps, {}> {
-
   static defaultProps = {
-    labelCols: '',
+    labelCols: "",
     requiredLabel: false,
-    label: '',
-    errorMessage: '',
+    label: "",
+    errorMessage: "",
     invalid: false,
     disabled: false,
-    type: 'text',
-  }
+    type: "text",
+  };
 
-  constructor(props) {
+  constructor(props: InputProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  get labelClass() {
+  get labelClass(): string {
     if (this.props.labelCols) {
       return `sm:col-span-${this.props.labelCols}`;
     } else {
@@ -36,65 +35,74 @@ class HiInput extends React.Component<InputProps, {}> {
     }
   }
 
-  get requiredLabel() {
+  get requiredLabel(): JSX.Element {
     if (this.props.requiredLabel) {
       return <div className="bg-amber-900 text-white px-3 mr-3">必須</div>;
-    } else {
-      return '';
     }
   }
 
-  get inputWrapClass() {
+  get inputWrapClass(): string {
     if (this.props.labelCols) {
-      let cols = this.props.labelCols
-      if (typeof cols === 'string') {
-        cols = parseInt(cols)
+      let cols = this.props.labelCols;
+      if (typeof cols === "string") {
+        cols = parseInt(cols);
       }
       const col = 12 - cols;
-      return `sm:col-span-${col}`
+      return `sm:col-span-${col}`;
     } else {
       return "sm:col-span-12";
     }
   }
 
-  get errorMessage() {
+  get errorMessage(): JSX.Element {
     if (this.haveError) {
-      return <p className="text-red-500 text-xs italic">{this.props.errorMessage}</p>
+      return (
+        <p className="text-red-500 text-xs italic">{this.props.errorMessage}</p>
+      );
     }
   }
 
-  get haveError() {
+  get haveError(): boolean {
     return this.props.invalid && !this.props.disabled;
   }
 
-  get inputClass() {
-    let inputClass = 'appearance-none border rounded w-full p-4 text-gray-700 leading-tight focus:outline-none'
+  get inputClass(): string {
+    let inputClass =
+      "appearance-none border rounded w-full p-4 text-gray-700 leading-tight focus:outline-none";
     if (this.haveError) {
-      inputClass += ' border-red-500'
+      inputClass += " border-red-500";
     }
     if (this.props.invalid) {
-      inputClass += ' focus:shadow-outline'
+      inputClass += " focus:shadow-outline";
     }
-    return inputClass
+    return inputClass;
   }
 
-  handleChange(event) {
-    this.props.setValue(event.target.value)
+  handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
+    this.props.handleChange(event.target.value);
   }
 
-  render() {
-    return <div className="grid grid-cols-12">
-      <label className={'block text-sm flex items-center col-span-12 ' + this.labelClass}>
-        { this.requiredLabel }
-        { this.props.label }
-      </label>
-      <div className={'col-span-12 ' + this.inputWrapClass}></div>
-      <input className={this.inputClass} type={this.props.type} onChange={this.handleChange} />
-      {this.errorMessage}
-    </div>
+  render(): JSX.Element {
+    return (
+      <div className="grid grid-cols-12">
+        <label
+          className={
+            "block text-sm flex items-center col-span-12 " + this.labelClass
+          }
+        >
+          {this.requiredLabel}
+          {this.props.label}
+        </label>
+        <div className={"col-span-12 " + this.inputWrapClass}></div>
+        <input
+          className={this.inputClass}
+          type={this.props.type}
+          onChange={this.handleChange}
+        />
+        {this.errorMessage}
+      </div>
+    );
   }
 }
 
-
-
-export default HiInput
+export default HiInput;

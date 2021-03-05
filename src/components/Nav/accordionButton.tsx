@@ -1,29 +1,50 @@
-import { useState } from 'react';
-import Link from 'next/link'
+import { useState } from "react";
+import Link from "next/link";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function AccordionButton(props) {
+type AccordionButtonProps = {
+  closeDrawer: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  item: {
+    label: string;
+    children?: Array<{
+      label: string;
+      to: string;
+    }>;
+  };
+};
+
+function AccordionButton(props: AccordionButtonProps): JSX.Element {
   const [open, setOpen] = useState(false);
   let parentClass = "parent";
   parentClass += open ? " open" : "";
-  const liClass = open ? "close-link" : "open-link"
+  const liClass = open ? "close-link" : "open-link";
 
   return (
     <div className="accordion">
-      <div className={parentClass} onClick={() => { setOpen(!open); }}>
+      <div
+        className={parentClass}
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
         {props.item.label}
-        <FontAwesomeIcon className="w-4 ml-2 fontawesome" icon={faChevronDown} />
+        <FontAwesomeIcon
+          className="w-4 ml-2 fontawesome"
+          icon={faChevronDown}
+        />
       </div>
       <ul className="submenu">
-        {props.item.children.map(value => {
+        {props.item.children.map((value) => {
           return (
             <li className={liClass} key={value.to}>
               <Link href={value.to}>
-                <a className="link" onClick={props.closeDrawer}>{value.label}</a>
+                <a className="link" onClick={props.closeDrawer}>
+                  {value.label}
+                </a>
               </Link>
             </li>
-          )
+          );
         })}
       </ul>
       <style jsx>{`
@@ -87,7 +108,7 @@ function AccordionButton(props) {
         }
       `}</style>
     </div>
-  )
+  );
 }
 
-export default AccordionButton
+export default AccordionButton;

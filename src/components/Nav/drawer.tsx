@@ -1,14 +1,21 @@
-import AccordionMenu from "./accordionMenu"
+import AccordionMenu from "./accordionMenu";
 
-function Drawer(props) {
+type DrawerProps = {
+  open: boolean;
+  close: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+  ) => void;
+};
+
+function Drawer(props: DrawerProps): JSX.Element {
   let contentClass = "content";
-  contentClass += props.open ? " open": "";
+  contentClass += props.open ? " open" : "";
 
   let overlayClass = "overlay";
   if (props.open) {
-    overlayClass += " opacity-50"
+    overlayClass += " opacity-50";
   } else {
-    overlayClass += " hidden opacity-0"
+    overlayClass += " hidden opacity-0";
   }
 
   return (
@@ -49,7 +56,7 @@ function Drawer(props) {
         }
       `}</style>
     </div>
-  )
+  );
 }
 
-export default Drawer
+export default Drawer;

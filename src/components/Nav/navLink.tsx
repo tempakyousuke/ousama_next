@@ -1,13 +1,27 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-function NavLink(props) {
-  const router = useRouter()
-  const matchRouteClass = "link " + (router.pathname === props.item.to ? "text-gray-900" : "");
+type NavLinkProps = {
+  item: {
+    label: string;
+    to?: string;
+    loggedIn?: boolean;
+  };
+  closeDrawer: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+  ) => void;
+};
+
+function NavLink(props: NavLinkProps): JSX.Element {
+  const router = useRouter();
+  const matchRouteClass =
+    "link " + (router.pathname === props.item.to ? "text-gray-900" : "");
   return (
     <div>
       <Link href={props.item.to}>
-        <div className={matchRouteClass} onClick={props.closeDrawer}>{props.item.label}</div>
+        <div className={matchRouteClass} onClick={props.closeDrawer}>
+          {props.item.label}
+        </div>
       </Link>
       <style jsx>{`
         .link {
@@ -22,7 +36,7 @@ function NavLink(props) {
         }
       `}</style>
     </div>
-  )
+  );
 }
 
-export default NavLink
+export default NavLink;
