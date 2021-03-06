@@ -9,9 +9,9 @@ function Nav(): JSX.Element {
   };
 
   return (
-    <div className="w-full bg-warmGray-200 text-amber-1100 shadow-2xl">
-      <div className="flex flex-col max-w-screen-xl px-4 mx-auto">
-        <div className="p-4 flex flex-row items-center justify-between">
+    <div className="w-full shadow-2xl bg-warmGray-200 text-amber-1100">
+      <div className="flex flex-col px-4 mx-auto max-w-screen-xl">
+        <div className="flex flex-row items-center justify-between p-4">
           <Link href="/">
             <a className="text-lg font-semibold tracking-widest">
               王様のかくれんぼ

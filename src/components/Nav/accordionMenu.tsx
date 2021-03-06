@@ -25,9 +25,9 @@ function AccordionMenu(props: MuneProps): JSX.Element {
   });
   return (
     <div className="py-2">
-      <div className="mt-5 font-bold p-4 text-xl">王様のかくれんぼ</div>
+      <div className="p-4 mt-5 text-xl font-bold">王様のかくれんぼ</div>
       {navi}
-      <div className="p-4 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline text-xl">
+      <div className="p-4 text-xl md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
         ログアウト
       </div>
     </div>

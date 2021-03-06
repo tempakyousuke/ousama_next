@@ -37,7 +37,7 @@ class HiInput extends React.Component<InputProps, {}> {
 
   get requiredLabel(): JSX.Element {
     if (this.props.requiredLabel) {
-      return <div className="bg-amber-900 text-white px-3 mr-3">必須</div>;
+      return <div className="px-3 mr-3 text-white bg-amber-900">必須</div>;
     }
   }
 
@@ -57,7 +57,7 @@ class HiInput extends React.Component<InputProps, {}> {
   get errorMessage(): JSX.Element {
     if (this.haveError) {
       return (
-        <p className="text-red-500 text-xs italic">{this.props.errorMessage}</p>
+        <p className="text-xs italic text-red-500">{this.props.errorMessage}</p>
       );
     }
   }
