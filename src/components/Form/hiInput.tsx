@@ -4,6 +4,7 @@ type InputProps = {
   labelCols: string | number;
   requiredLabel: boolean;
   label: string;
+  value: string;
   errorMessage: string;
   invalid: boolean;
   disabled: boolean;
@@ -95,6 +96,7 @@ class HiInput extends React.Component<InputProps, {}> {
         </label>
         <div className={"col-span-12 " + this.inputWrapClass}></div>
         <input
+          value={this.props.value}
           className={this.inputClass}
           type={this.props.type}
           onChange={this.handleChange}
