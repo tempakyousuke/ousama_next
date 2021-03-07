@@ -1,12 +1,20 @@
-const colors = require('tailwindcss/colors');
+const colors = require("tailwindcss/colors");
 
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: {
+    content: [
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+    ],
+    optionns: {
+      safelist: ["bg-opacity-70"],
+    },
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
+      transparent: "transparent",
+      current: "currentColor",
       black: colors.black,
       white: colors.white,
       gray: colors.trueGray,
@@ -19,8 +27,8 @@ module.exports = {
     extend: {
       colors: {
         amber: {
-          1000: '#642c0d',
-          1100: '#50230a',
+          1000: "#642c0d",
+          1100: "#50230a",
         },
       },
     },
