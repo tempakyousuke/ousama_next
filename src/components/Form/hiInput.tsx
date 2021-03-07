@@ -10,6 +10,7 @@ type InputProps = {
   disabled: boolean;
   type: string;
   handleChange: Function;
+  placeholder: string;
 };
 
 class HiInput extends React.Component<InputProps, {}> {
@@ -21,6 +22,7 @@ class HiInput extends React.Component<InputProps, {}> {
     invalid: false,
     disabled: false,
     type: "text",
+    placeholder: "",
   };
 
   constructor(props: InputProps) {
@@ -49,9 +51,9 @@ class HiInput extends React.Component<InputProps, {}> {
         cols = parseInt(cols);
       }
       const col = 12 - cols;
-      return `sm:col-span-${col}`;
+      return `col-span-12 sm:col-span-${col}`;
     } else {
-      return "sm:col-span-12";
+      return "col-span-12 sm:col-span-12";
     }
   }
 
@@ -94,14 +96,16 @@ class HiInput extends React.Component<InputProps, {}> {
           {this.requiredLabel}
           {this.props.label}
         </label>
-        <div className={"col-span-12 " + this.inputWrapClass}></div>
-        <input
-          value={this.props.value}
-          className={this.inputClass}
-          type={this.props.type}
-          onChange={this.handleChange}
-        />
-        {this.errorMessage}
+        <div className={"col-span-12 " + this.inputWrapClass}>
+          <input
+            value={this.props.value}
+            className={this.inputClass}
+            type={this.props.type}
+            onChange={this.handleChange}
+            placeholder={this.props.placeholder}
+          />
+          {this.errorMessage}
+        </div>
       </div>
     );
   }
