@@ -1,7 +1,7 @@
 import React from "react";
 import HiInput from "components/Form/hiInput";
 import HiButton from "components/Button/hiButton";
-import firebase, { fireauth } from "utils/firebase";
+import { fireauth } from "utils/firebase";
 import { toast } from "react-toastify";
 
 type EmailSignupState = {
