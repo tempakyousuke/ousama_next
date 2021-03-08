@@ -3,6 +3,7 @@ import HiInput from "components/Form/hiInput";
 import HiButton from "components/Button/hiButton";
 import { fireauth } from "utils/firebase";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 type EmailLoginState = {
   email: string;
@@ -61,6 +62,9 @@ class EmailLogin extends React.Component<{}, EmailLoginState> {
           <HiButton handleClick={this.loginByEmail.bind(this)}>
             ログイン
           </HiButton>
+        </div>
+        <div className="mt-5 text-right text-lime-700">
+          <Link href="/reset_password/">パスワードを忘れた方はこちら</Link>
         </div>
       </form>
     );
