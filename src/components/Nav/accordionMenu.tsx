@@ -2,9 +2,13 @@ import menus from "./menus";
 import AccordionButton from "./accordionButton";
 import NavLink from "./navLink";
 import React from "react";
+import { useRouter } from "next/router";
+import { fireauth } from "utils/firebase";
 
 type MuneProps = {
-  closeDrawer: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  closeDrawer: (
+    event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => void;
 };
 
 function AccordionMenu(props: MuneProps): JSX.Element {
@@ -23,11 +27,23 @@ function AccordionMenu(props: MuneProps): JSX.Element {
       );
     }
   });
+
+  const router = useRouter();
+
+  const logout = async () => {
+    await fireauth.signOut();
+    router.push("/");
+    props.closeDrawer();
+  };
+
   return (
     <div className="py-2">
       <div className="p-4 mt-5 text-xl font-bold">王様のかくれんぼ</div>
       {navi}
-      <div className="p-4 text-xl md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+      <div
+        className="p-4 text-xl md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+        onClick={logout}
+      >
         ログアウト
       </div>
     </div>
