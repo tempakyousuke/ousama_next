@@ -1,9 +1,8 @@
 import React from "react";
-import HiInput from "components/Form/hiInput";
-import HiButton from "components/Button/hiButton";
 import { fireauth } from "utils/firebase";
 import { toast } from "react-toastify";
 import EmailLogin from "./emailLogin";
+import SnsLogin from "./snsLogin";
 
 type LoginState = {
   email: string;
@@ -71,7 +70,7 @@ class Login extends React.Component<{}, LoginState> {
             メールアドレスでログイン
           </li>
         </ul>
-        {this.state.activeTab === "login" ? <EmailLogin /> : <EmailLogin />}
+        {this.state.activeTab === "email" ? <EmailLogin /> : <SnsLogin />}
       </div>
     );
   }
