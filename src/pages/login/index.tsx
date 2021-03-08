@@ -57,10 +57,6 @@ class Login extends React.Component<WithRouterProps, LoginState> {
     }
   }
 
-  notify(): void {
-    toast("Wow so easy !");
-  }
-
   render(): JSX.Element {
     return (
       <HiCard className="max-w-2xl mx-auto mt-5" title="ログイン">
