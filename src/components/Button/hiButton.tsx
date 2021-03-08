@@ -22,7 +22,7 @@ class HiButton extends React.Component<ButtonProps, {}> {
   }
 
   static defaultProps = {
-    color: "amber",
+    color: "purple",
     block: false,
     inverted: false,
     rounded: "rounded",
@@ -39,12 +39,15 @@ class HiButton extends React.Component<ButtonProps, {}> {
   }
 
   get buttonClass(): string {
-    let buttonClass = "font-bold py-2 px-4 h-full";
+    let buttonClass = "font-bold py-2 px-4 h-full w-full";
     if (this.props.disabled) {
       buttonClass += " bg-opacity-70";
     }
     buttonClass += ` ${this.props.rounded}`;
     buttonClass += this.colorClass;
+    if (this.props.block) {
+      buttonClass += "w-full";
+    }
     return buttonClass;
   }
 
@@ -63,7 +66,7 @@ class HiButton extends React.Component<ButtonProps, {}> {
     );
   }
 
-  handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
     if (this.props.disabled) {
       return;
     }
