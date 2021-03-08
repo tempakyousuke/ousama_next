@@ -1,17 +1,24 @@
 import React from "react";
 import { AuthContext } from "context/auth";
 import { withRouter, NextRouter } from "next/router";
-import LoginCard from "components/pages/login/login";
+import LoginForm from "components/pages/login/login";
 
 interface WithRouterProps {
   router: NextRouter;
 }
 
-class Login extends React.Component<WithRouterProps, {}> {
+type LoginState = {
+  activeTab: string;
+};
+
+class Login extends React.Component<WithRouterProps, LoginState> {
   static contextType = AuthContext;
 
   constructor(props: WithRouterProps) {
     super(props);
+    this.state = {
+      activeTab: "login",
+    };
   }
 
   componentDidMount() {
@@ -32,10 +39,46 @@ class Login extends React.Component<WithRouterProps, {}> {
     }
   }
 
+  get loginClass() {
+    if (this.state.activeTab === "login") {
+      return "px-6 py-2 bg-white rounded-t-lg";
+    } else {
+      return "px-6 py-2 text-gray-500 bg-white bg-gray-200 rounded-t-lg";
+    }
+  }
+
+  get signupClass() {
+    if (this.state.activeTab === "signup") {
+      return "px-6 py-2 bg-white rounded-t-lg";
+    } else {
+      return "px-6 py-2 text-gray-500 bg-white bg-gray-200 rounded-t-lg";
+    }
+  }
+
   render(): JSX.Element {
     return (
       <>
-        <LoginCard />
+        <div className="mt-5">
+          <ul className="flex cursor-pointer">
+            <li
+              className={this.loginClass}
+              onClick={() => {
+                this.setState({ activeTab: "login" });
+              }}
+            >
+              ログイン
+            </li>
+            <li
+              className={this.signupClass}
+              onClick={() => {
+                this.setState({ activeTab: "signup" });
+              }}
+            >
+              新規登録
+            </li>
+          </ul>
+        </div>
+        {this.state.activeTab === "login" ? <LoginForm /> : <LoginForm />}
       </>
     );
   }
