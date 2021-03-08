@@ -1,13 +1,14 @@
 import React from "react";
-import HiCard from "components/Card/hiCard";
 import HiInput from "components/Form/hiInput";
 import HiButton from "components/Button/hiButton";
 import { fireauth } from "utils/firebase";
 import { toast } from "react-toastify";
+import EmailLogin from "./emailLogin";
 
 type LoginState = {
   email: string;
   password: string;
+  activeTab: string;
 };
 
 class Login extends React.Component<{}, LoginState> {
@@ -16,6 +17,7 @@ class Login extends React.Component<{}, LoginState> {
     this.state = {
       email: "",
       password: "",
+      activeTab: "sns",
     };
   }
 
@@ -32,40 +34,45 @@ class Login extends React.Component<{}, LoginState> {
     }
   }
 
+  get emailTabClass(): string {
+    if (this.state.activeTab === "email") {
+      return "px-6 py-2 bg-white rounded-t-lg";
+    } else {
+      return "px-6 py-2 text-gray-500 bg-white bg-gray-200 rounded-t-lg";
+    }
+  }
+
+  get snsTabClass(): string {
+    if (this.state.activeTab === "sns") {
+      return "px-6 py-2 bg-white rounded-t-lg";
+    } else {
+      return "px-6 py-2 text-gray-500 bg-white bg-gray-200 rounded-t-lg";
+    }
+  }
+
   render(): JSX.Element {
     return (
-      <HiCard className="max-w-2xl mx-auto mt-5" title="ログイン">
-        <form>
-          <div className="mt-4">
-            <HiInput
-              label="メールアドレス"
-              labelCols={3}
-              value={this.state.email}
-              handleChange={(value: string) => {
-                this.setState({ email: value });
-              }}
-              placeholder="メールアドレス"
-            />
-          </div>
-          <div className="mt-4">
-            <HiInput
-              label="パスワード"
-              labelCols={3}
-              value={this.state.password}
-              handleChange={(value: string) => {
-                this.setState({ password: value });
-              }}
-              type="password"
-              placeholder="パスワード"
-            />
-          </div>
-          <div className="w-10/12 mx-auto mt-4 md:w-6/12">
-            <HiButton handleClick={this.loginByEmail.bind(this)}>
-              ログイン
-            </HiButton>
-          </div>
-        </form>
-      </HiCard>
+      <div className="p-6 bg-white shadow-2xl rounded-xl">
+        <ul className="flex cursor-pointer">
+          <li
+            className={this.snsTabClass}
+            onClick={() => {
+              this.setState({ activeTab: "sns" });
+            }}
+          >
+            SNSでログイン
+          </li>
+          <li
+            className={this.emailTabClass}
+            onClick={() => {
+              this.setState({ activeTab: "email" });
+            }}
+          >
+            メールアドレスでログイン
+          </li>
+        </ul>
+        {this.state.activeTab === "login" ? <EmailLogin /> : <EmailLogin />}
+      </div>
     );
   }
 }

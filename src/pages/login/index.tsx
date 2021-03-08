@@ -39,7 +39,7 @@ class Login extends React.Component<WithRouterProps, LoginState> {
     }
   }
 
-  get loginClass() {
+  get loginClass(): string {
     if (this.state.activeTab === "login") {
       return "px-6 py-2 bg-white rounded-t-lg";
     } else {
@@ -47,7 +47,7 @@ class Login extends React.Component<WithRouterProps, LoginState> {
     }
   }
 
-  get signupClass() {
+  get signupClass(): string {
     if (this.state.activeTab === "signup") {
       return "px-6 py-2 bg-white rounded-t-lg";
     } else {
@@ -57,29 +57,27 @@ class Login extends React.Component<WithRouterProps, LoginState> {
 
   render(): JSX.Element {
     return (
-      <>
-        <div className="mt-5">
-          <ul className="flex cursor-pointer">
-            <li
-              className={this.loginClass}
-              onClick={() => {
-                this.setState({ activeTab: "login" });
-              }}
-            >
-              ログイン
-            </li>
-            <li
-              className={this.signupClass}
-              onClick={() => {
-                this.setState({ activeTab: "signup" });
-              }}
-            >
-              新規登録
-            </li>
-          </ul>
-        </div>
+      <div className="max-w-2xl mx-auto mt-5">
+        <ul className="flex cursor-pointer">
+          <li
+            className={this.loginClass}
+            onClick={() => {
+              this.setState({ activeTab: "login" });
+            }}
+          >
+            ログイン
+          </li>
+          <li
+            className={this.signupClass}
+            onClick={() => {
+              this.setState({ activeTab: "signup" });
+            }}
+          >
+            新規登録
+          </li>
+        </ul>
         {this.state.activeTab === "login" ? <LoginForm /> : <LoginForm />}
-      </>
+      </div>
     );
   }
 }
