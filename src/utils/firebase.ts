@@ -1,6 +1,6 @@
-import firebase from "firebase/app"
-import "firebase/auth"
-import "firebase/firestore"
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAL2ik01B3WkBQR8P8NJm9IhoxSaO2x_d0",
@@ -10,11 +10,13 @@ const firebaseConfig = {
   storageBucket: "hide-and-seek-add2c.appspot.com",
   messagingSenderId: "542708033036",
   appId: "1:542708033036:web:e1989138ab1c0829d8f029",
-  measurementId: "G-PQ827YCZVV"
+  measurementId: "G-PQ827YCZVV",
 };
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
+  firebase.initializeApp(firebaseConfig);
 }
 
-export default firebase
+export const fireauth = firebase.auth();
+
+export default firebase;
