@@ -21,7 +21,7 @@ const AuthProvider: FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser: currentUser }}>
+    <AuthContext.Provider value={{ currentUser }}>
       {children}
     </AuthContext.Provider>
   );
