@@ -2,6 +2,7 @@ import React from "react";
 import { AuthContext } from "context/auth";
 import { withRouter, NextRouter } from "next/router";
 import LoginForm from "components/pages/login/login";
+import SignupForm from "components/pages/login/signup";
 
 interface WithRouterProps {
   router: NextRouter;
@@ -76,7 +77,7 @@ class Login extends React.Component<WithRouterProps, LoginState> {
             新規登録
           </li>
         </ul>
-        {this.state.activeTab === "login" ? <LoginForm /> : <LoginForm />}
+        {this.state.activeTab === "login" ? <LoginForm /> : <SignupForm />}
       </div>
     );
   }

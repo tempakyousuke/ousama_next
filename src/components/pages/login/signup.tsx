@@ -1,5 +1,5 @@
 import React from "react";
-import EmailLogin from "./emailLogin";
+import EmailSignup from "./emailSignup";
 import SnsLogin from "./snsLogin";
 
 type LoginState = {
@@ -40,7 +40,7 @@ class Login extends React.Component<{}, LoginState> {
               this.setState({ activeTab: "sns" });
             }}
           >
-            SNSでログイン
+            SNSで新規登録
           </li>
           <li
             className={this.emailTabClass}
@@ -48,10 +48,10 @@ class Login extends React.Component<{}, LoginState> {
               this.setState({ activeTab: "email" });
             }}
           >
-            メールアドレスでログイン
+            メールアドレスで新規登録
           </li>
         </ul>
-        {this.state.activeTab === "email" ? <EmailLogin /> : <SnsLogin />}
+        {this.state.activeTab === "email" ? <EmailSignup /> : <SnsLogin />}
       </div>
     );
   }
