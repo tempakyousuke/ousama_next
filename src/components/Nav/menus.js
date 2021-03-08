@@ -39,6 +39,7 @@ export default [
   },
   {
     label: "ついたて詰将棋作成",
+    loggedIn: true,
     children: [
       {
         label: "新規作成",
