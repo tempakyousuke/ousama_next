@@ -23,6 +23,8 @@ module.exports = {
       amber: colors.amber,
       lime: colors.lime,
       warmGray: colors.warmGray,
+      violet: colors.violet,
+      purple: colors.purple,
     },
     extend: {
       colors: {
