@@ -64,34 +64,36 @@ class Login extends React.Component<WithRouterProps, LoginState> {
   render(): JSX.Element {
     return (
       <HiCard className="max-w-2xl mx-auto mt-5" title="ログイン">
-        <div className="mt-4">
-          <HiInput
-            label="メールアドレス"
-            labelCols={3}
-            value={this.state.email}
-            handleChange={(value: string) => {
-              this.setState({ email: value });
-            }}
-            placeholder="メールアドレス"
-          />
-        </div>
-        <div className="mt-4">
-          <HiInput
-            label="パスワード"
-            labelCols={3}
-            value={this.state.password}
-            handleChange={(value: string) => {
-              this.setState({ password: value });
-            }}
-            type="password"
-            placeholder="パスワード"
-          />
-        </div>
-        <div className="w-10/12 mx-auto mt-4 md:w-6/12">
-          <HiButton handleClick={this.loginByEmail.bind(this)}>
-            ログイン
-          </HiButton>
-        </div>
+        <form>
+          <div className="mt-4">
+            <HiInput
+              label="メールアドレス"
+              labelCols={3}
+              value={this.state.email}
+              handleChange={(value: string) => {
+                this.setState({ email: value });
+              }}
+              placeholder="メールアドレス"
+            />
+          </div>
+          <div className="mt-4">
+            <HiInput
+              label="パスワード"
+              labelCols={3}
+              value={this.state.password}
+              handleChange={(value: string) => {
+                this.setState({ password: value });
+              }}
+              type="password"
+              placeholder="パスワード"
+            />
+          </div>
+          <div className="w-10/12 mx-auto mt-4 md:w-6/12">
+            <HiButton handleClick={this.loginByEmail.bind(this)}>
+              ログイン
+            </HiButton>
+          </div>
+        </form>
       </HiCard>
     );
   }
