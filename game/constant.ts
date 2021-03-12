@@ -327,6 +327,31 @@ export enum SQ {
   SQ99,
 }
 
+export enum Ability {
+  UP,
+  UP_RI,
+  RI,
+  DO_RI,
+  DO,
+  DO_LE,
+  LE,
+  UP_LE,
+
+  INF_UP,
+  INF_UP_RI,
+  INF_RI,
+  INF_DO_RI,
+  INF_DO,
+  INF_DO_LE,
+  INF_LE,
+  INF_UP_LE,
+
+  UP2_RI,
+  UP2_LE,
+  DO2_RI,
+  DO2_LE,
+}
+
 export enum Player {
   BLACK,
   WHITE,
