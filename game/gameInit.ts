@@ -124,7 +124,7 @@ export class GameInit {
     this.comment = [];
   }
   // 初期化
-  initialize() {
+  initialize(): void {
     this.board = {};
     this.board[SQ11] = {
       koma: KYO,
@@ -292,7 +292,7 @@ export class GameInit {
   }
 
   // 詰将棋用初期化
-  tsumeInitialize() {
+  tsumeInitialize(): void {
     this.board = {};
     this.cap = {};
     this.cap[WHITE] = klona(ALL_PIECE);
@@ -312,7 +312,7 @@ export class GameInit {
   }
 
   // firestoreから返ってきたobjectを入れる
-  import(data: BoardData) {
+  import(data: BoardData): void {
     this.board = klona(data.board);
     this.cap[BLACK] = klona(data.black_cap);
     this.cap[WHITE] = klona(data.white_cap);
