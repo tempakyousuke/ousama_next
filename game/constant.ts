@@ -226,15 +226,7 @@ export enum CapPiece {
   OU,
 }
 
-export enum Piece {
-  HU,
-  KYO,
-  KEI,
-  GIN,
-  HI,
-  KAKU,
-  KIN,
-  OU,
+export enum PromotePiece {
   N_KYO,
   N_KEI,
   N_GIN,
@@ -242,6 +234,8 @@ export enum Piece {
   RYU,
   NONE,
 }
+
+export type Piece = CapPiece | PromotePiece;
 
 export enum SQ {
   SQ11,
