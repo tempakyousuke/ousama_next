@@ -1,6 +1,6 @@
 import React from "react";
 import { Game } from "game/game";
-import { WHITE, BLACK } from "game/constant";
+import { WHITE, BLACK, OU } from "game/constant";
 import Image from "next/image";
 import { getImage } from "game/image";
 
@@ -61,6 +61,19 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     );
   }
 
+  get blackCaps(): JSX.Element {
+    return (
+      <div className="relative w-11/12 h-full mx-auto">
+        {Object.keys(this.props.game.cap[BLACK]).map((koma) => {
+          if (parseInt(koma) === OU) {
+            return "";
+          }
+          return this.getCap(parseInt(koma), BLACK);
+        })}
+      </div>
+    );
+  }
+
   getCap(koma: number, owner: number): JSX.Element {
     const image = getImage(koma, owner);
     const style = {
@@ -106,6 +119,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             objectFit="cover"
             quality={100}
           />
+          {this.blackCaps}
         </div>
       </div>
     );
