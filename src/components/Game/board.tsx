@@ -6,6 +6,7 @@ import { getImage } from "game/image";
 
 type BoardProps = {
   game: Game;
+  boardClick: (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
 type BoardState = {
@@ -16,6 +17,12 @@ type BoardState = {
 };
 
 export default class Board extends React.Component<BoardProps, BoardState> {
+  static defaultProps = {
+    boardClick: function (): void {
+      return;
+    },
+  };
+
   boardRef: React.RefObject<HTMLDivElement>;
   boardWidth: number;
   boardHeight: number;
@@ -110,7 +117,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           />
           {this.whiteCaps}
         </div>
-        <div ref={this.boardRef} className="relative mx-auto mt-5">
+        <div
+          ref={this.boardRef}
+          className="relative mx-auto mt-5"
+          onClick={this.props.boardClick}
+        >
           <Image
             alt="board"
             src="/img/board/japanese-chess-b03.jpg"
