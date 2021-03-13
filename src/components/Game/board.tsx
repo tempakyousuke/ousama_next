@@ -53,11 +53,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
   get whiteCaps(): JSX.Element {
     return (
-      <>
+      <div className="relative w-11/12 h-full mx-auto">
         {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
           return this.getCap(parseInt(koma), WHITE);
         })}
-      </>
+      </div>
     );
   }
 
@@ -65,7 +65,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     const image = getImage(koma, owner);
     const style = {
       width: this.state.squareWidth,
-      left: this.state.squareWidth * koma,
+      left: this.state.squareWidth * (koma - 1),
+      padding: `0 ${this.state.squareHeight * 0.1}px`,
     };
     return (
       <div className="absolute" style={style} key={`${owner}-${koma}`}>
@@ -77,7 +78,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   render(): JSX.Element {
     return (
       <div className="w-10/12 mx-auto lg:w-8/12">
-        <div className="relative h-10 mx-auto sm:h-14 cap">
+        <div className="relative h-12 mx-auto sm:h-14 md:h-16 cap">
           <Image
             alt="cap"
             src="/img/board/japanese-chess-bg.jpg"
