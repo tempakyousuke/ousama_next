@@ -55,7 +55,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     return (
       <div className="relative w-11/12 h-full mx-auto">
         {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
-          return this.getCap(parseInt(koma), WHITE);
+          const count = this.props.game.cap[WHITE][koma];
+          if (count === 0) {
+            return;
+          }
+          return this.getCap(parseInt(koma), WHITE, count);
         })}
       </div>
     );
@@ -68,13 +72,17 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           if (parseInt(koma) === OU) {
             return "";
           }
-          return this.getCap(parseInt(koma), BLACK);
+          const count = this.props.game.cap[BLACK][koma];
+          if (count === 0) {
+            return;
+          }
+          return this.getCap(parseInt(koma), BLACK, count);
         })}
       </div>
     );
   }
 
-  getCap(koma: number, owner: number): JSX.Element {
+  getCap(koma: number, owner: number, count: number): JSX.Element {
     const image = getImage(koma, owner);
     const style = {
       width: this.state.squareWidth,
@@ -84,6 +92,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     return (
       <div className="absolute" style={style} key={`${owner}-${koma}`}>
         <Image src={image} layout="intrinsic" width={100} height={100} />
+        <span className="absolute text-xs cap-count sm:text-sm">{count}</span>
       </div>
     );
   }
@@ -121,6 +130,12 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           />
           {this.blackCaps}
         </div>
+        <style jsx>{`
+          :global(.cap-count) {
+            bottom: 0;
+            right: 0.5rem;
+          }
+        `}</style>
       </div>
     );
   }
