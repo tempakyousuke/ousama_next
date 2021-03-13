@@ -15,11 +15,9 @@ import {
   RYU,
   BLACK,
   WHITE,
-  Piece,
-  Player,
 } from "./constant";
 
-export const getImage = (koma: Piece, owner: Player): string => {
+export const getImage = (koma: number, owner: number): string => {
   if (owner === BLACK) {
     switch (koma) {
       case HU:

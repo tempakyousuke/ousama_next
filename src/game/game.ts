@@ -17,18 +17,12 @@ import {
   BLACK,
   WHITE,
   PLAYER_NONE,
-  Player,
-  CapPiece,
-  Piece,
-  SQ,
-  His,
-  Board,
 } from "./constant";
 import { GameAbility } from "./gameAbility";
 
 export class Game extends GameAbility {
-  get blackBoard(): Board {
-    const board: Board = {};
+  get blackBoard(): GAME.Board {
+    const board: GAME.Board = {};
     for (const k in this.board) {
       if (this.board[k].owner === WHITE) {
         board[k] = {
@@ -42,8 +36,8 @@ export class Game extends GameAbility {
     return board;
   }
 
-  get whiteBoard(): Board {
-    const board: Board = {};
+  get whiteBoard(): GAME.Board {
+    const board: GAME.Board = {};
     for (const k in this.board) {
       if (this.board[k].owner === BLACK) {
         board[k] = {
@@ -57,10 +51,10 @@ export class Game extends GameAbility {
     return board;
   }
 
-  get blackHistory(): His[] {
+  get blackHistory(): GAME.His[] {
     return this.his.map((v) => {
       if (v.turn === WHITE) {
-        const his: His = {
+        const his: GAME.His = {
           get: v.get,
           checking: v.checking,
           turn: v.turn,
@@ -76,10 +70,10 @@ export class Game extends GameAbility {
     });
   }
 
-  get whiteHistory(): His[] {
+  get whiteHistory(): GAME.His[] {
     return this.his.map((v) => {
       if (v.turn === BLACK) {
-        const his: His = {
+        const his: GAME.His = {
           get: v.get,
           checking: v.checking,
           turn: v.turn,
@@ -101,7 +95,7 @@ export class Game extends GameAbility {
   }
 
   // 現在の指し手を取得
-  getHistory(): His | {} {
+  getHistory(): GAME.His | {} {
     if (this.turn_number === 0) {
       return {};
     }
@@ -122,7 +116,7 @@ export class Game extends GameAbility {
   }
 
   // 現在の指し手で動かそうとした駒のマスを取得
-  get nowBeforeSquare(): SQ {
+  get nowBeforeSquare(): number {
     if (this.turn_number - 1 in this.his) {
       return this.his[this.turn_number - 1].before;
     } else {
@@ -131,7 +125,7 @@ export class Game extends GameAbility {
   }
 
   // 現在の指し手のマスを取得
-  get nowSquare(): SQ {
+  get nowSquare(): number {
     if (this.turn_number - 1 in this.his) {
       return this.his[this.turn_number - 1].after;
     } else {
@@ -140,7 +134,7 @@ export class Game extends GameAbility {
   }
 
   // 持ち駒に追加
-  addToCap(piece: Piece, owner: Player): void {
+  addToCap(piece: number, owner: number): void {
     if (piece === NONE) {
       return;
     }
@@ -149,13 +143,13 @@ export class Game extends GameAbility {
   }
 
   // 持ち駒から削除
-  remFromCap(owner: Player): void {
+  remFromCap(owner: number): void {
     const unprom = this.getUnPromotePiece(this.selectingPiece);
     this.cap[owner][unprom] -= 1;
   }
 
   // 指定した位置に持ち駒を置く
-  putFromCap(sq: SQ): boolean {
+  putFromCap(sq: number): boolean {
     this.board[sq] = {
       koma: this.selectingPiece,
       owner: this.turn,
@@ -190,7 +184,7 @@ export class Game extends GameAbility {
 
   // 指定した位置に移動
   // 反則を指した場合trueを返す
-  putFromBoard(sq: SQ, isPromote: boolean): boolean {
+  putFromBoard(sq: number, isPromote: boolean): boolean {
     const piece = this.board[this.selecting_sq].koma;
     if (this.checkMove(sq)) {
       // 反則でない場合
@@ -224,11 +218,11 @@ export class Game extends GameAbility {
 
   // 履歴を登録
   addHistory(
-    afterPiece: Piece,
-    targetSq: SQ,
+    afterPiece: number,
+    targetSq: number,
     isPromote: boolean,
     isFaul: boolean,
-    get: CapPiece,
+    get: number,
     cheking: boolean
   ): void {
     const history = {
@@ -263,7 +257,7 @@ export class Game extends GameAbility {
   }
 
   // 解答用棋譜作成
-  showAnswer = (history: His): string => {
+  showAnswer = (history: GAME.His): string => {
     let historyText = "";
     if (history.turn === BLACK) {
       historyText = "▲";
@@ -303,7 +297,7 @@ export class Game extends GameAbility {
     return historyText;
   };
 
-  getSquareString(sq: SQ): string {
+  getSquareString(sq: number): string {
     const row = ["１", "２", "３", "４", "５", "６", "７", "８", "９"];
     const line = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
     const rowIndex = Math.floor(sq / 9);
@@ -311,7 +305,7 @@ export class Game extends GameAbility {
     return row[rowIndex] + line[lineIndex];
   }
 
-  getPieceChar(koma: Piece): string | false {
+  getPieceChar(koma: number): string | false {
     switch (koma) {
       case HU:
         return "歩";

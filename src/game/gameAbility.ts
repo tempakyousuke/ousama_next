@@ -77,10 +77,6 @@ import {
   UP2_LE,
   DO2_RI,
   DO2_LE,
-  SQ,
-  Piece,
-  Player,
-  Ability,
 } from "./constant";
 import { GameInit } from "./gameInit";
 const FIRST_ROW = [SQ11, SQ21, SQ31, SQ41, SQ51, SQ61, SQ71, SQ81, SQ91];
@@ -89,12 +85,12 @@ const EIGHTH_ROW = [SQ18, SQ28, SQ38, SQ48, SQ58, SQ68, SQ78, SQ88, SQ98];
 const FINAL_ROW = [SQ19, SQ29, SQ39, SQ49, SQ59, SQ69, SQ79, SQ89, SQ99];
 
 export class GameAbility extends GameInit {
-  get turnReverse(): Player {
+  get turnReverse(): number {
     return this.getReverseOwner(this.turn);
   }
 
   // 選択中のマスの駒を返す
-  sqPiece(): Piece {
+  sqPiece(): number {
     if (this.selecting_sq !== 81) {
       return this.board[this.selecting_sq].koma;
     } else {
@@ -103,7 +99,7 @@ export class GameAbility extends GameInit {
   }
 
   // 選択中のマスの所持者を返す
-  sqOwner(): Player {
+  sqOwner(): number {
     if (this.selecting_sq !== 81) {
       return this.board[this.selecting_sq].owner;
     } else {
@@ -112,7 +108,7 @@ export class GameAbility extends GameInit {
   }
 
   // 反対の所持者を返す
-  getReverseOwner(owner: Player): Player {
+  getReverseOwner(owner: number): number {
     if (owner === WHITE) {
       return BLACK;
     } else if (owner === BLACK) {
@@ -122,7 +118,7 @@ export class GameAbility extends GameInit {
   }
 
   // 王様のいるマスを返す
-  getKingSquare(owner: Player): SQ | false {
+  getKingSquare(owner: number): number | false {
     for (const key of Object.keys(this.board)) {
       const numKey = parseInt(key);
       if (
@@ -136,7 +132,7 @@ export class GameAbility extends GameInit {
   }
 
   // 王手をかけられているかのチェック
-  getCheckingStatus(owner: Player): boolean {
+  getCheckingStatus(owner: number): boolean {
     const kSq = this.getKingSquare(owner);
     if (kSq === false) {
       // 王様がいなければfalse
@@ -151,7 +147,7 @@ export class GameAbility extends GameInit {
   }
 
   // 成る前の駒を取得
-  getUnPromotePiece(piece: Piece): Piece {
+  getUnPromotePiece(piece: number): number {
     switch (piece) {
       case TO:
         return HU;
@@ -170,7 +166,7 @@ export class GameAbility extends GameInit {
   }
 
   // 成った後の駒を取得
-  getPromotePiece(piece: Piece): Piece {
+  getPromotePiece(piece: number): number {
     switch (piece) {
       case HU:
         return TO;
@@ -189,7 +185,7 @@ export class GameAbility extends GameInit {
   }
 
   // 成る事が可能かどうかの判定
-  isPromotable(sq: SQ): boolean {
+  isPromotable(sq: number): boolean {
     const pieces = [HU, KYO, KEI, GIN, KAKU, HI];
     if (!pieces.includes(this.sqPiece())) {
       return false;
@@ -204,7 +200,7 @@ export class GameAbility extends GameInit {
   }
 
   // 必ず成らなければいけないかの判定
-  mustPromote(sq: SQ): boolean {
+  mustPromote(sq: number): boolean {
     switch (this.sqPiece()) {
       case HU:
       case KYO:
@@ -224,7 +220,7 @@ export class GameAbility extends GameInit {
   }
 
   // 駒の能力を取得
-  getAbilityList(koma: Piece, owner: Player): Ability[] {
+  getAbilityList(koma: number, owner: number): number[] {
     let ability: number[];
     switch (koma) {
       case HU:
@@ -274,7 +270,7 @@ export class GameAbility extends GameInit {
   }
 
   // 駒の特定のアビリティに対し動かせる場所を返す関数
-  getMovableArea(ability: number, sq: SQ): SQ[] {
+  getMovableArea(ability: number, sq: number): number[] {
     const owner = this.board[sq].owner;
     const result = [];
     switch (ability) {
@@ -499,7 +495,7 @@ export class GameAbility extends GameInit {
   }
 
   // 本将棋的に持ち駒をおけるかチェックする関数
-  isPutable(sq: SQ, owner: Player): boolean {
+  isPutable(sq: number, owner: number): boolean {
     switch (this.selectingPiece) {
       case HU:
         if (owner === BLACK) {
@@ -529,7 +525,7 @@ export class GameAbility extends GameInit {
     return true;
   }
 
-  alradyExistHu(sq: SQ): boolean {
+  alradyExistHu(sq: number): boolean {
     const column = Math.floor(sq / 9);
     const sqs = Array(9)
       .fill(0)
@@ -544,13 +540,13 @@ export class GameAbility extends GameInit {
   }
 
   // 盤上の駒の配置は無視して動かせるかどうかチェック
-  isMovable(sq: SQ): boolean {
+  isMovable(sq: number): boolean {
     const movable = this.getPieceMovableArea(this.selecting_sq);
     return movable.includes(sq);
   }
 
   // 反則かチェック 反則ならfalse
-  checkMove(sq: SQ): boolean {
+  checkMove(sq: number): boolean {
     const owner = this.board[this.selecting_sq].owner;
     const rOwner = this.getReverseOwner(owner);
     // 駒の飛越チェック
@@ -678,7 +674,7 @@ export class GameAbility extends GameInit {
     return result;
   }
 
-  isCheckmate(kingOwner: Player): boolean {
+  isCheckmate(kingOwner: number): boolean {
     // 詰んでるか判定したい王様のマスを取得
     const kSq = this.getKingSquare(kingOwner);
     const owner = this.getReverseOwner(kingOwner);
@@ -724,7 +720,7 @@ export class GameAbility extends GameInit {
     return false;
   }
 
-  getNeedAigomaSquare(kSq: SQ, checking: SQ): SQ[] {
+  getNeedAigomaSquare(kSq: number, checking: number): number[] {
     const kingColumn = Math.floor(kSq / 9);
     const checkingColumn = Math.floor(checking / 9);
 
@@ -814,7 +810,7 @@ export class GameAbility extends GameInit {
     return [];
   }
 
-  isCanPutSquare(square: SQ, owner: Player): boolean {
+  isCanPutSquare(square: number, owner: number): boolean {
     const capPieces = this.getCapList(owner);
     for (const piece of capPieces) {
       this.selectingPiece = piece;
@@ -827,7 +823,7 @@ export class GameAbility extends GameInit {
     return false;
   }
 
-  getCapList(owner: Player): Piece[] {
+  getCapList(owner: number): number[] {
     const cap = this.cap[owner];
     const pieces = [];
     for (const key in cap) {
@@ -840,7 +836,7 @@ export class GameAbility extends GameInit {
 
   // 王様を動かして王手回避できるか判定
   // ownerは王手をかけている側
-  isCanEscape(kSq: SQ, owner: Player): boolean {
+  isCanEscape(kSq: number, owner: number): boolean {
     const movable = this.getPieceMovableArea(kSq);
     const kingOwner = this.getReverseOwner(owner);
     let result = false;
@@ -871,7 +867,7 @@ export class GameAbility extends GameInit {
     return result;
   }
 
-  isCanMoveSquare(checkingSq: SQ, kingOwner: Player): boolean {
+  isCanMoveSquare(checkingSq: number, kingOwner: number): boolean {
     const kSq = this.getKingSquare(kingOwner);
     const guardians = this.getCanMovedList(checkingSq, kingOwner);
     const owner = this.getReverseOwner(kingOwner);
@@ -923,7 +919,7 @@ export class GameAbility extends GameInit {
    * kSq = 指定されているマス
    * owner側の駒が動けるのかをチェック
    */
-  getCanMovedList(kSq: SQ, owner: Player): SQ[] {
+  getCanMovedList(kSq: number, owner: number): number[] {
     const result = [];
     const rOwner = this.getReverseOwner(owner);
     let cSq = kSq - 1;
@@ -1200,12 +1196,12 @@ export class GameAbility extends GameInit {
   }
 
   // 本将棋的に駒を動かせる場所を取得
-  getPieceMovableArea(sq: SQ): SQ[] {
+  getPieceMovableArea(sq: number): number[] {
     const abilityList = this.getAbilityList(
       this.board[sq].koma,
       this.board[sq].owner
     );
-    let movable: SQ[] = [];
+    let movable: number[] = [];
     for (const i in abilityList) {
       movable = movable.concat(this.getMovableArea(abilityList[i], sq));
     }
@@ -1213,7 +1209,7 @@ export class GameAbility extends GameInit {
   }
 
   // 駒が指定されたアビリティを持っているかチェックする関数
-  checkHaving(ability: number, koma: Piece, owner: Player): boolean {
+  checkHaving(ability: number, koma: number, owner: number): boolean {
     if (owner === PLAYER_NONE) {
       return false;
     }

@@ -97,8 +97,6 @@ import {
   CAP_DEFAULT,
   Board,
   BoardCap,
-  BoardData,
-  His,
 } from "../game/constant";
 
 export class GameInit {
@@ -108,7 +106,7 @@ export class GameInit {
   turn: number;
   selecting_sq: number;
   selectingPiece: number;
-  his: His[];
+  his: GAME.His[];
   comment: string[];
   whiteLife: number | undefined;
   blackLife: number | undefined;
@@ -312,7 +310,7 @@ export class GameInit {
   }
 
   // firestoreから返ってきたobjectを入れる
-  import(data: BoardData): void {
+  import(data: GAME.BoardData): void {
     this.board = klona(data.board);
     this.cap[BLACK] = klona(data.black_cap);
     this.cap[WHITE] = klona(data.white_cap);
