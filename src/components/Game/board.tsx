@@ -1,6 +1,8 @@
 import React from "react";
 import { Game } from "game/game";
+import { WHITE, BLACK } from "game/constant";
 import Image from "next/image";
+import { getImage } from "game/image";
 
 type BoardProps = {
   game: Game;
@@ -9,6 +11,8 @@ type BoardProps = {
 type BoardState = {
   boardWidth: number;
   boardHeight: number;
+  squareWidth: number;
+  squareHeight: number;
 };
 
 export default class Board extends React.Component<BoardProps, BoardState> {
@@ -23,10 +27,13 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     this.state = {
       boardWidth: 0,
       boardHeight: 0,
+      squareWidth: 0,
+      squareHeight: 0,
     };
   }
 
   componentDidMount(): void {
+    this.handleResize();
     window.addEventListener("resize", this.handleResize);
   }
 
@@ -39,7 +46,32 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     this.setState({
       boardWidth: container.current.clientWidth,
       boardHeight: container.current.clientHeight,
+      squareWidth: container.current.clientWidth / 9,
+      squareHeight: container.current.clientHeight / 9,
     });
+  }
+
+  get whiteCaps(): JSX.Element {
+    return (
+      <>
+        {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
+          return this.getCap(parseInt(koma), WHITE);
+        })}
+      </>
+    );
+  }
+
+  getCap(koma: number, owner: number): JSX.Element {
+    const image = getImage(koma, owner);
+    const style = {
+      width: this.state.squareWidth,
+      left: this.state.squareWidth * koma,
+    };
+    return (
+      <div className="absolute" style={style} key={`${owner}-${koma}`}>
+        <Image src={image} layout="intrinsic" width={100} height={100} />
+      </div>
+    );
   }
 
   render(): JSX.Element {
@@ -53,6 +85,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             objectFit="cover"
             quality={100}
           />
+          {this.whiteCaps}
         </div>
         <div ref={this.boardRef} className="relative mx-auto mt-5">
           <Image
