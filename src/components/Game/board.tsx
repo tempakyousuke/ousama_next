@@ -6,6 +6,7 @@ import { getImage } from "game/image";
 
 type BoardProps = {
   game: Game;
+  selectingCap: { koma: number; owner: number } | null;
   capClick: (koma: number, owner: number) => void;
   boardClick: (sq: number) => void;
 };
@@ -144,10 +145,18 @@ export default class Board extends React.Component<BoardProps, BoardState> {
       left: this.state.squareWidth * (koma - 1),
       padding: `0 ${this.state.squareHeight * 0.1}px`,
     };
+    let imageClass = "";
+    const selectingCap = this.props.selectingCap;
+    if (selectingCap) {
+      if (selectingCap.koma === koma && selectingCap.owner === owner) {
+        imageClass = "opacity-50";
+      }
+    }
     return (
       <div className="absolute" style={style} key={`${owner}-${koma}`}>
         <Image
           src={image}
+          className={imageClass}
           layout="intrinsic"
           width={100}
           height={100}

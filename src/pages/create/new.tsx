@@ -6,7 +6,10 @@ export default function CreateNew(): JSX.Element {
   game.tsumeInitialize();
   return (
     <>
-      <Position game={game} />
+      <Position
+        game={game}
+        updateGame={(value: Game) => this.setState({ game: value })}
+      />
     </>
   );
 }
