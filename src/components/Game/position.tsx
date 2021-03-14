@@ -25,13 +25,22 @@ export default class Position extends React.Component<
   }
 
   capClick(koma: number, owner: number): void {
-    if (this.state.selectingCap === null) {
+    const selectingCap = this.state.selectingCap;
+    if (selectingCap === null) {
       this.setState({
         selectingCap: {
           koma,
           owner,
         },
       });
+      return;
+    }
+    if (selectingCap.owner === owner) {
+      if (selectingCap.koma === koma) {
+        this.setState({
+          selectingCap: null,
+        });
+      }
     }
   }
 
