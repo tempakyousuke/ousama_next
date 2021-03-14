@@ -1,6 +1,8 @@
 import React from "react";
 import { Game } from "game/game";
+import { WHITE } from "game/constant";
 import Board from "components/Game/board";
+import { klona } from "klona";
 
 type PositionProps = {
   game: Game;
@@ -22,10 +24,10 @@ export default class Position extends React.Component<
     super(props);
     this.state = { selectingCap: null };
     this.capClick = this.capClick.bind(this);
+    this.boardClick = this.boardClick.bind(this);
   }
 
   capClick(koma: number, owner: number): void {
-    console.log(koma, owner);
     const selectingCap = this.state.selectingCap;
     if (selectingCap === null) {
       if (koma === 0) {
@@ -59,12 +61,33 @@ export default class Position extends React.Component<
     }
   }
 
+  boardClick(sq: number): void {
+    const game = klona(this.props.game);
+    if (this.state.selectingCap) {
+      const koma = this.state.selectingCap.koma;
+      const owner = this.state.selectingCap.owner;
+      if (game.board[sq].koma) {
+        game.cap[WHITE][game.board[sq].koma]++;
+      }
+      game.cap[owner][koma]--;
+      game.board[sq] = {
+        koma,
+        owner,
+      };
+      this.props.updateGame(game);
+      this.setState({
+        selectingCap: null,
+      });
+    }
+  }
+
   render(): JSX.Element {
     return (
       <Board
         game={this.props.game}
         selectingCap={this.state.selectingCap}
         capClick={this.capClick}
+        boardClick={this.boardClick}
       />
     );
   }

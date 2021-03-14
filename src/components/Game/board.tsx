@@ -71,8 +71,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     const board = this.boardRef;
     const boardWidth = board.current.clientWidth;
     const boardHeight = board.current.clientHeight;
-    const edgeWidth = boardWidth * 0.015;
-    const edgeHeight = boardHeight * 0.015;
+    const edgeWidth = boardWidth * 0.01;
+    const edgeHeight = boardHeight * 0.013;
     const rect = board.current.getBoundingClientRect();
     const boardPositionX = rect.left + window.pageXOffset;
     const boardPositionY = rect.top + window.pageYOffset;
@@ -176,6 +176,45 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     );
   }
 
+  get boardPieces(): JSX.Element {
+    return (
+      <>
+        {Object.keys(this.props.game.board).map((sq) => {
+          const sqNum = parseInt(sq);
+          const row = sqNum % 9;
+          const column = Math.floor(sqNum / 9);
+          const top = this.state.squareHeight * row + this.state.edgeHeight;
+          const left =
+            this.state.squareHeight * (8 - column) + this.state.edgeWidth - 3;
+          const style = {
+            top,
+            left,
+            width: this.state.squareWidth,
+            height: this.state.squareHeight,
+            padding: `2px ${this.state.squareHeight * 0.05}px`,
+          };
+          const imageClass = "";
+          const { koma, owner } = this.props.game.board[sq];
+          const image = getImage(koma, owner);
+          if (!koma) {
+            return "";
+          }
+          return (
+            <div className="absolute" style={style} key={`square-${sq}`}>
+              <Image
+                src={image}
+                className={imageClass}
+                layout="intrinsic"
+                width={100}
+                height={100}
+              />
+            </div>
+          );
+        })}
+      </>
+    );
+  }
+
   getCap(koma: number, owner: number, count: number): JSX.Element {
     const image = getImage(koma, owner);
     const style = {
@@ -235,6 +274,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             width={1000}
             height={1000}
           />
+          {this.boardPieces}
         </div>
         <div
           className="relative h-10 mx-auto mt-5 sm:h-14 cap"
