@@ -185,7 +185,7 @@ export class Game extends GameAbility {
   // 指定した位置に移動
   // 反則を指した場合trueを返す
   putFromBoard(sq: number, isPromote: boolean): boolean {
-    const piece = this.board[this.selecting_sq].koma;
+    const piece = this.board[this.selectingSq].koma;
     if (this.checkMove(sq)) {
       // 反則でない場合
       let afterPiece = piece;
@@ -200,7 +200,7 @@ export class Game extends GameAbility {
         owner: this.turn,
       };
 
-      this.board[this.selecting_sq] = {
+      this.board[this.selectingSq] = {
         koma: NONE,
         owner: PLAYER_NONE,
       };
@@ -227,7 +227,7 @@ export class Game extends GameAbility {
   ): void {
     const history = {
       koma: afterPiece, // afterに置かれた駒（成っていても成る前の状態が書かれる）
-      before: this.selecting_sq, // afterの駒がもともとあったマス持ち駒なら81
+      before: this.selectingSq, // afterの駒がもともとあったマス持ち駒なら81
       after: targetSq, // 駒が置かれた場所
       is_promote: isPromote, // 駒が成ったかどうか
       is_faul: isFaul, // 反則かどうか

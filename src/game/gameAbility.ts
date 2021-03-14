@@ -91,8 +91,8 @@ export class GameAbility extends GameInit {
 
   // 選択中のマスの駒を返す
   sqPiece(): number {
-    if (this.selecting_sq !== 81) {
-      return this.board[this.selecting_sq].koma;
+    if (this.selectingSq !== 81) {
+      return this.board[this.selectingSq].koma;
     } else {
       return NONE;
     }
@@ -100,8 +100,8 @@ export class GameAbility extends GameInit {
 
   // 選択中のマスの所持者を返す
   sqOwner(): number {
-    if (this.selecting_sq !== 81) {
-      return this.board[this.selecting_sq].owner;
+    if (this.selectingSq !== 81) {
+      return this.board[this.selectingSq].owner;
     } else {
       return PLAYER_NONE;
     }
@@ -191,10 +191,10 @@ export class GameAbility extends GameInit {
       return false;
     }
     if (this.sqOwner() === BLACK) {
-      return WHITE_AREA.includes(sq) || WHITE_AREA.includes(this.selecting_sq);
+      return WHITE_AREA.includes(sq) || WHITE_AREA.includes(this.selectingSq);
     }
     if (this.sqOwner() === WHITE) {
-      return BLACK_AREA.includes(sq) || BLACK_AREA.includes(this.selecting_sq);
+      return BLACK_AREA.includes(sq) || BLACK_AREA.includes(this.selectingSq);
     }
     return false;
   }
@@ -541,19 +541,19 @@ export class GameAbility extends GameInit {
 
   // 盤上の駒の配置は無視して動かせるかどうかチェック
   isMovable(sq: number): boolean {
-    const movable = this.getPieceMovableArea(this.selecting_sq);
+    const movable = this.getPieceMovableArea(this.selectingSq);
     return movable.includes(sq);
   }
 
   // 反則かチェック 反則ならfalse
   checkMove(sq: number): boolean {
-    const owner = this.board[this.selecting_sq].owner;
+    const owner = this.board[this.selectingSq].owner;
     const rOwner = this.getReverseOwner(owner);
     // 駒の飛越チェック
-    if (this.selecting_sq - sq > 10) {
+    if (this.selectingSq - sq > 10) {
       // 右上に行く動き
-      if ((this.selecting_sq - sq) % 10 === 0) {
-        let tmpSq = this.selecting_sq - 10;
+      if ((this.selectingSq - sq) % 10 === 0) {
+        let tmpSq = this.selectingSq - 10;
         while (tmpSq > sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -563,9 +563,9 @@ export class GameAbility extends GameInit {
           }
           tmpSq = tmpSq - 10;
         }
-      } else if ((this.selecting_sq - sq) % 8 === 0) {
+      } else if ((this.selectingSq - sq) % 8 === 0) {
         // 右下に行く動き
-        let tmpSq = this.selecting_sq - 8;
+        let tmpSq = this.selectingSq - 8;
         while (tmpSq > sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -576,10 +576,10 @@ export class GameAbility extends GameInit {
           tmpSq = tmpSq - 8;
         }
       }
-    } else if (this.selecting_sq - sq < -10) {
-      if ((sq - this.selecting_sq) % 10 === 0) {
+    } else if (this.selectingSq - sq < -10) {
+      if ((sq - this.selectingSq) % 10 === 0) {
         // 左下に行く動き
-        let tmpSq = this.selecting_sq + 10;
+        let tmpSq = this.selectingSq + 10;
         while (tmpSq < sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -589,9 +589,9 @@ export class GameAbility extends GameInit {
           }
           tmpSq = tmpSq + 10;
         }
-      } else if ((sq - this.selecting_sq) % 8 === 0) {
+      } else if ((sq - this.selectingSq) % 8 === 0) {
         // 左上に行く動き
-        let tmpSq = this.selecting_sq + 8;
+        let tmpSq = this.selectingSq + 8;
         while (tmpSq < sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -604,17 +604,17 @@ export class GameAbility extends GameInit {
       }
     }
     // 飛車の飛越チェック
-    if (this.selecting_sq - sq > 0) {
-      if (this.selecting_sq - sq < 9 && this.selecting_sq % 9 > sq % 9) {
-        let tmpSq = this.selecting_sq - 1;
+    if (this.selectingSq - sq > 0) {
+      if (this.selectingSq - sq < 9 && this.selectingSq % 9 > sq % 9) {
+        let tmpSq = this.selectingSq - 1;
         while (tmpSq > sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
           }
           tmpSq = tmpSq - 1;
         }
-      } else if ((this.selecting_sq - sq) % 9 === 0) {
-        let tmpSq = this.selecting_sq - 9;
+      } else if ((this.selectingSq - sq) % 9 === 0) {
+        let tmpSq = this.selectingSq - 9;
         while (tmpSq > sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -622,17 +622,17 @@ export class GameAbility extends GameInit {
           tmpSq = tmpSq - 9;
         }
       }
-    } else if (this.selecting_sq - sq < 0) {
-      if (sq - this.selecting_sq < 9 && this.selecting_sq % 9 < sq % 9) {
-        let tmpSq = this.selecting_sq + 1;
+    } else if (this.selectingSq - sq < 0) {
+      if (sq - this.selectingSq < 9 && this.selectingSq % 9 < sq % 9) {
+        let tmpSq = this.selectingSq + 1;
         while (tmpSq < sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
           }
           tmpSq = tmpSq + 1;
         }
-      } else if ((sq - this.selecting_sq) % 9 === 0) {
-        let tmpSq = this.selecting_sq + 9;
+      } else if ((sq - this.selectingSq) % 9 === 0) {
+        let tmpSq = this.selectingSq + 9;
         while (tmpSq < sq) {
           if (this.board[tmpSq].owner === rOwner) {
             return false;
@@ -647,13 +647,13 @@ export class GameAbility extends GameInit {
       return true;
     }
 
-    const fromBefore = klona(this.board[this.selecting_sq]);
+    const fromBefore = klona(this.board[this.selectingSq]);
     const toBefore = klona(this.board[sq]);
     this.board[sq] = {
       koma: fromBefore.koma,
       owner: fromBefore.owner,
     };
-    this.board[this.selecting_sq] = {
+    this.board[this.selectingSq] = {
       koma: NONE,
       owner: PLAYER_NONE,
     };
@@ -663,7 +663,7 @@ export class GameAbility extends GameInit {
     } else {
       result = true;
     }
-    this.board[this.selecting_sq] = {
+    this.board[this.selectingSq] = {
       koma: fromBefore.koma,
       owner: fromBefore.owner,
     };

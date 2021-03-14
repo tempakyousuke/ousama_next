@@ -104,7 +104,7 @@ export class GameInit {
   cap: BoardCap;
   turn_number: number;
   turn: number;
-  selecting_sq: number;
+  selectingSq: number;
   selectingPiece: number;
   his: GAME.His[];
   comment: string[];
@@ -116,7 +116,7 @@ export class GameInit {
     this.cap = {};
     this.turn_number = 0;
     this.turn = BLACK;
-    this.selecting_sq = 0;
+    this.selectingSq = 0;
     this.selectingPiece = 0;
     this.his = [];
     this.comment = [];
@@ -281,7 +281,7 @@ export class GameInit {
     this.cap[BLACK] = klona(CAP_DEFAULT);
     this.turn = BLACK;
     this.turn_number = 0;
-    this.selecting_sq = 81;
+    this.selectingSq = 81;
     this.selectingPiece = -1;
     this.his = [];
     this.comment = [];
@@ -303,7 +303,7 @@ export class GameInit {
     }
     this.turn = PLAYER_NONE;
     this.turn_number = 0;
-    this.selecting_sq = 81;
+    this.selectingSq = 81;
     this.selectingPiece = -1;
     this.his = [];
     this.comment = [];
