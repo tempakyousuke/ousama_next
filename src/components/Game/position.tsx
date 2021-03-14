@@ -25,8 +25,12 @@ export default class Position extends React.Component<
   }
 
   capClick(koma: number, owner: number): void {
+    console.log(koma, owner);
     const selectingCap = this.state.selectingCap;
     if (selectingCap === null) {
+      if (koma === 0) {
+        return;
+      }
       this.setState({
         selectingCap: {
           koma,
@@ -41,6 +45,17 @@ export default class Position extends React.Component<
           selectingCap: null,
         });
       }
+      if (selectingCap.koma === 0) {
+        this.setState({
+          selectingCap: null,
+        });
+      }
+      this.setState({
+        selectingCap: {
+          koma,
+          owner,
+        },
+      });
     }
   }
 

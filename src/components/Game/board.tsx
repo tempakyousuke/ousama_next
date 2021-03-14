@@ -18,6 +18,9 @@ type BoardState = {
   squareHeight: number;
   edgeWidth: number;
   edgeHeight: number;
+  boardPositionX: number;
+  boardPositionY: number;
+  capPositionX: number;
 };
 
 export default class Board extends React.Component<BoardProps, BoardState> {
@@ -31,12 +34,14 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   };
 
   boardRef: React.RefObject<HTMLDivElement>;
+  capAreaRef: React.RefObject<HTMLDivElement>;
   boardWidth: number;
   boardHeight: number;
 
   constructor(props: BoardProps) {
     super(props);
     this.boardRef = React.createRef<HTMLDivElement>();
+    this.capAreaRef = React.createRef<HTMLDivElement>();
     this.handleResize = this.handleResize.bind(this);
     this.capClick = this.capClick.bind(this);
     this.boardClick = this.boardClick.bind(this);
@@ -47,6 +52,9 @@ export default class Board extends React.Component<BoardProps, BoardState> {
       squareHeight: 0,
       edgeWidth: 0,
       edgeHeight: 0,
+      boardPositionX: 0,
+      boardPositionY: 0,
+      capPositionX: 0,
     };
   }
 
@@ -60,11 +68,17 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   }
 
   handleResize(): void {
-    const container = this.boardRef;
-    const boardWidth = container.current.clientWidth;
-    const boardHeight = container.current.clientHeight;
+    const board = this.boardRef;
+    const boardWidth = board.current.clientWidth;
+    const boardHeight = board.current.clientHeight;
     const edgeWidth = boardWidth * 0.015;
     const edgeHeight = boardHeight * 0.015;
+    const rect = board.current.getBoundingClientRect();
+    const boardPositionX = rect.left + window.pageXOffset;
+    const boardPositionY = rect.top + window.pageYOffset;
+    const capRect = this.capAreaRef.current.getBoundingClientRect();
+    const capPositionX = capRect.left + window.pageXOffset;
+
     this.setState({
       boardWidth,
       boardHeight,
@@ -72,16 +86,40 @@ export default class Board extends React.Component<BoardProps, BoardState> {
       squareHeight: (boardHeight - edgeHeight * 2) / 9,
       edgeWidth,
       edgeHeight,
+      boardPositionX,
+      boardPositionY,
+      capPositionX,
     });
   }
 
-  capClick(koma: number, owner: number): void {
+  capClick(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    owner: number
+  ): void {
+    const offsetX = event.pageX - this.state.capPositionX;
+    const squareWidth = this.state.squareWidth;
+    let koma: number;
+
+    for (let i = 0; i < 9; i++) {
+      if (i * squareWidth <= offsetX && offsetX < (i + 1) * squareWidth) {
+        koma = i + 1;
+        break;
+      }
+    }
+    if (koma === undefined) {
+      this.props.capClick(0, owner);
+    }
+    if (this.props.game.cap[WHITE][koma] === 0) {
+      this.props.capClick(0, owner);
+    }
     this.props.capClick(koma, owner);
   }
 
   boardClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
-    const offsetX = event.nativeEvent.offsetX - this.state.edgeWidth;
-    const offsetY = event.nativeEvent.offsetY - this.state.edgeHeight;
+    const offsetX =
+      event.pageX - this.state.boardPositionX - this.state.edgeWidth;
+    const offsetY =
+      event.pageY - this.state.boardPositionY - this.state.edgeHeight;
     const squareWidth = this.state.squareWidth;
     const squareHeight = this.state.squareHeight;
 
@@ -109,7 +147,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
   get whiteCaps(): JSX.Element {
     return (
-      <div className="relative w-11/12 h-full mx-auto">
+      <div ref={this.capAreaRef} className="relative w-11/12 h-full mx-auto">
         {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
           const count = this.props.game.cap[WHITE][koma];
           if (count === 0) {
@@ -160,9 +198,6 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           layout="intrinsic"
           width={100}
           height={100}
-          onClick={() => {
-            this.capClick(koma, owner);
-          }}
         />
         <span className="absolute text-xs cap-count sm:text-sm">{count}</span>
       </div>
@@ -172,7 +207,12 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   render(): JSX.Element {
     return (
       <div className="w-10/12 mx-auto lg:w-8/12">
-        <div className="relative h-12 mx-auto sm:h-14 md:h-16 cap">
+        <div
+          className="relative h-12 mx-auto sm:h-14 md:h-16 cap"
+          onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            this.capClick(event, WHITE);
+          }}
+        >
           <Image
             alt="cap"
             src="/img/board/japanese-chess-bg.jpg"
@@ -196,7 +236,12 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             height={1000}
           />
         </div>
-        <div className="relative h-10 mx-auto mt-5 sm:h-14 cap">
+        <div
+          className="relative h-10 mx-auto mt-5 sm:h-14 cap"
+          onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            this.capClick(event, BLACK);
+          }}
+        >
           <Image
             alt="cap"
             src="/img/board/japanese-chess-bg.jpg"
