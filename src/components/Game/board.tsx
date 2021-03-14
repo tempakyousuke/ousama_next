@@ -6,7 +6,8 @@ import { getImage } from "game/image";
 
 type BoardProps = {
   game: Game;
-  boardClick: (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  capClick: (koma: number, owner: number) => void;
+  boardClick: (sq: number) => void;
 };
 
 type BoardState = {
@@ -14,11 +15,16 @@ type BoardState = {
   boardHeight: number;
   squareWidth: number;
   squareHeight: number;
+  edgeWidth: number;
+  edgeHeight: number;
 };
 
 export default class Board extends React.Component<BoardProps, BoardState> {
   static defaultProps = {
     boardClick: function (): void {
+      return;
+    },
+    capClick: function (): void {
       return;
     },
   };
@@ -31,11 +37,15 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     super(props);
     this.boardRef = React.createRef<HTMLDivElement>();
     this.handleResize = this.handleResize.bind(this);
+    this.capClick = this.capClick.bind(this);
+    this.boardClick = this.boardClick.bind(this);
     this.state = {
       boardWidth: 0,
       boardHeight: 0,
       squareWidth: 0,
       squareHeight: 0,
+      edgeWidth: 0,
+      edgeHeight: 0,
     };
   }
 
@@ -50,12 +60,50 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
   handleResize(): void {
     const container = this.boardRef;
+    const boardWidth = container.current.clientWidth;
+    const boardHeight = container.current.clientHeight;
+    const edgeWidth = boardWidth * 0.015;
+    const edgeHeight = boardHeight * 0.015;
     this.setState({
-      boardWidth: container.current.clientWidth,
-      boardHeight: container.current.clientHeight,
-      squareWidth: container.current.clientWidth / 9,
-      squareHeight: container.current.clientHeight / 9,
+      boardWidth,
+      boardHeight,
+      squareWidth: (boardWidth - edgeWidth * 2) / 9,
+      squareHeight: (boardHeight - edgeHeight * 2) / 9,
+      edgeWidth,
+      edgeHeight,
     });
+  }
+
+  capClick(koma: number, owner: number): void {
+    this.props.capClick(koma, owner);
+  }
+
+  boardClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
+    const offsetX = event.nativeEvent.offsetX - this.state.edgeWidth;
+    const offsetY = event.nativeEvent.offsetY - this.state.edgeHeight;
+    const squareWidth = this.state.squareWidth;
+    const squareHeight = this.state.squareHeight;
+
+    let column: number;
+    let row: number;
+
+    for (let i = 0; i < 9; i++) {
+      if (i * squareWidth <= offsetX && offsetX < (i + 1) * squareWidth) {
+        column = 8 - i;
+        break;
+      }
+    }
+    for (let i = 0; i < 9; i++) {
+      if (i * squareHeight <= offsetY && offsetY < (i + 1) * squareHeight) {
+        row = i;
+        break;
+      }
+    }
+    const sq = column * 9 + row;
+    if (isNaN(sq)) {
+      return;
+    }
+    this.props.boardClick(sq);
   }
 
   get whiteCaps(): JSX.Element {
@@ -98,7 +146,15 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     };
     return (
       <div className="absolute" style={style} key={`${owner}-${koma}`}>
-        <Image src={image} layout="intrinsic" width={100} height={100} />
+        <Image
+          src={image}
+          layout="intrinsic"
+          width={100}
+          height={100}
+          onClick={() => {
+            this.capClick(koma, owner);
+          }}
+        />
         <span className="absolute text-xs cap-count sm:text-sm">{count}</span>
       </div>
     );
@@ -120,7 +176,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         <div
           ref={this.boardRef}
           className="relative mx-auto mt-5"
-          onClick={this.props.boardClick}
+          onClick={this.boardClick}
         >
           <Image
             alt="board"
