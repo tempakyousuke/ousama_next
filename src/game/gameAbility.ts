@@ -167,7 +167,8 @@ export class GameAbility extends GameInit {
 
   // 成った後の駒を取得
   getPromotePiece(piece: number): number {
-    switch (piece) {
+    const unPromotePiece = this.getUnPromotePiece(piece);
+    switch (unPromotePiece) {
       case HU:
         return TO;
       case KYO:
