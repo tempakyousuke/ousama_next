@@ -31,6 +31,11 @@ export default class Position extends React.Component<
     };
     this.capClick = this.capClick.bind(this);
     this.boardClick = this.boardClick.bind(this);
+    this.pickupPieceClick = this.pickupPieceClick.bind(this);
+  }
+
+  get selectingPiece(): number {
+    return this.props.game.board[this.state.selectingSquare].koma;
   }
 
   capClick(koma: number, owner: number): void {
@@ -102,6 +107,20 @@ export default class Position extends React.Component<
     });
   }
 
+  pickupPieceClick(isPromote: boolean, owner: number): void {
+    const game = klona(this.props.game);
+    const piece = isPromote
+      ? game.getPromotePiece(this.selectingPiece)
+      : game.getUnPromotePiece(this.selectingPiece);
+    game.board[this.state.selectingSquare].koma = piece;
+    game.board[this.state.selectingSquare].owner = owner;
+    this.props.updateGame(game);
+    this.setState({
+      selectingSquare: null,
+      showPickupPieces: false,
+    });
+  }
+
   render(): JSX.Element {
     return (
       <Board
@@ -111,6 +130,7 @@ export default class Position extends React.Component<
         selectingSquare={this.state.selectingSquare}
         capClick={this.capClick}
         boardClick={this.boardClick}
+        pickupPieceClick={this.pickupPieceClick}
       />
     );
   }

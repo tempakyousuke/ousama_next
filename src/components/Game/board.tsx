@@ -9,7 +9,8 @@ type BoardProps = {
   selectingCap: { koma: number; owner: number } | null;
   capClick: (koma: number, owner: number) => void;
   boardClick: (sq: number) => void;
-  showPickupPieces: boolean;
+  pickupPieceClick?: (isPromote: boolean, owner: number) => void;
+  showPickupPieces?: boolean;
   selectingSquare: number;
 };
 
@@ -33,6 +34,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     capClick: function (): void {
       return;
     },
+    pickupPieceClick: function (): void {
+      return;
+    },
+    showPickupPieces: false,
   };
 
   boardRef: React.RefObject<HTMLDivElement>;
@@ -222,6 +227,9 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   }
 
   get pickupPieces(): JSX.Element {
+    if (this.selectingPiece === 0) {
+      return <></>;
+    }
     const style = {
       top: 3,
       left: 3,
@@ -243,10 +251,50 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
     return (
       <div className="absolute p-5 bg-white" style={style}>
-        <Image src={piece1} layout="intrinsic" width={100} height={100} />
-        <Image src={piece2} layout="intrinsic" width={100} height={100} />
-        <Image src={piece3} layout="intrinsic" width={100} height={100} />
-        <Image src={piece4} layout="intrinsic" width={100} height={100} />
+        <Image
+          src={piece1}
+          layout="intrinsic"
+          width={100}
+          height={100}
+          onClick={() => {
+            this.props.pickupPieceClick(false, BLACK);
+          }}
+        />
+        <Image
+          src={piece2}
+          layout="intrinsic"
+          width={100}
+          height={100}
+          onClick={() => {
+            this.props.pickupPieceClick(false, WHITE);
+          }}
+        />
+        {piece3 ? (
+          <Image
+            src={piece3}
+            layout="intrinsic"
+            width={100}
+            height={100}
+            onClick={() => {
+              this.props.pickupPieceClick(true, BLACK);
+            }}
+          />
+        ) : (
+          ""
+        )}
+        {piece4 ? (
+          <Image
+            src={piece4}
+            layout="intrinsic"
+            width={100}
+            height={100}
+            onClick={() => {
+              this.props.pickupPieceClick(true, WHITE);
+            }}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
