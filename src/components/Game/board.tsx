@@ -233,7 +233,22 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     } else {
       delete style.left;
     }
-    return <div className="absolute p-5 bg-white" style={style}></div>;
+    const piece = this.props.game.getUnPromotePiece(this.selectingPiece);
+    const promotePiece = this.props.game.getPromotePiece(this.selectingPiece);
+
+    const piece1 = getImage(piece, BLACK);
+    const piece2 = getImage(piece, WHITE);
+    const piece3 = getImage(promotePiece, BLACK);
+    const piece4 = getImage(promotePiece, WHITE);
+
+    return (
+      <div className="absolute p-5 bg-white" style={style}>
+        <Image src={piece1} layout="intrinsic" width={100} height={100} />
+        <Image src={piece2} layout="intrinsic" width={100} height={100} />
+        <Image src={piece3} layout="intrinsic" width={100} height={100} />
+        <Image src={piece4} layout="intrinsic" width={100} height={100} />
+      </div>
+    );
   }
 
   getCap(koma: number, owner: number, count: number): JSX.Element {
