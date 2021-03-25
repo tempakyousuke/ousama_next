@@ -83,8 +83,14 @@ export default class Position extends React.Component<
           selectingSquare: sq,
           showPickupPieces: true,
         });
-      } else {
-        return;
+      }
+      return;
+    } else {
+      if (this.state.selectingSquare === sq) {
+        this.setState({
+          selectingSquare: null,
+          showPickupPieces: false,
+        });
       }
     }
   }
