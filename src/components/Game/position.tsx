@@ -1,6 +1,6 @@
 import React from "react";
 import { Game } from "game/game";
-import { WHITE } from "game/constant";
+import { WHITE, PLAYER_NONE } from "game/constant";
 import Board from "components/Game/board";
 import { klona } from "klona";
 
@@ -14,6 +14,8 @@ type PositionState = {
     koma: number;
     owner: number;
   } | null;
+  selectingSquare: number | null;
+  showPickupPieces: boolean;
 };
 
 export default class Position extends React.Component<
@@ -22,7 +24,11 @@ export default class Position extends React.Component<
 > {
   constructor(props: PositionProps) {
     super(props);
-    this.state = { selectingCap: null };
+    this.state = {
+      selectingCap: null,
+      selectingSquare: null,
+      showPickupPieces: false,
+    };
     this.capClick = this.capClick.bind(this);
     this.boardClick = this.boardClick.bind(this);
   }
@@ -64,6 +70,17 @@ export default class Position extends React.Component<
   boardClick(sq: number): void {
     if (this.state.selectingCap) {
       this.putCapToBoard(sq);
+      return;
+    }
+    if (!this.state.showPickupPieces) {
+      if (this.props.game.board[sq].owner !== PLAYER_NONE) {
+        this.setState({
+          selectingSquare: sq,
+          showPickupPieces: true,
+        });
+      } else {
+        return;
+      }
     }
   }
 
@@ -90,6 +107,7 @@ export default class Position extends React.Component<
       <Board
         game={this.props.game}
         selectingCap={this.state.selectingCap}
+        showPickupPieces={this.state.showPickupPieces}
         capClick={this.capClick}
         boardClick={this.boardClick}
       />

@@ -9,6 +9,8 @@ type BoardProps = {
   selectingCap: { koma: number; owner: number } | null;
   capClick: (koma: number, owner: number) => void;
   boardClick: (sq: number) => void;
+  showPickupPieces: boolean;
+  selectingSquare: number;
 };
 
 type BoardState = {
