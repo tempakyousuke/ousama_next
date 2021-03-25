@@ -62,23 +62,27 @@ export default class Position extends React.Component<
   }
 
   boardClick(sq: number): void {
-    const game = klona(this.props.game);
     if (this.state.selectingCap) {
-      const koma = this.state.selectingCap.koma;
-      const owner = this.state.selectingCap.owner;
-      if (game.board[sq].koma) {
-        game.cap[WHITE][game.board[sq].koma]++;
-      }
-      game.cap[owner][koma]--;
-      game.board[sq] = {
-        koma,
-        owner,
-      };
-      this.props.updateGame(game);
-      this.setState({
-        selectingCap: null,
-      });
+      this.putCapToBoard(sq);
     }
+  }
+
+  putCapToBoard(sq: number): void {
+    const game = klona(this.props.game);
+    const koma = this.state.selectingCap.koma;
+    const owner = this.state.selectingCap.owner;
+    if (game.board[sq].koma) {
+      game.cap[WHITE][game.board[sq].koma]++;
+    }
+    game.cap[owner][koma]--;
+    game.board[sq] = {
+      koma,
+      owner,
+    };
+    this.props.updateGame(game);
+    this.setState({
+      selectingCap: null,
+    });
   }
 
   render(): JSX.Element {
