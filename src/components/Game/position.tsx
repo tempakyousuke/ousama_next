@@ -91,6 +91,8 @@ export default class Position extends React.Component<
           selectingSquare: null,
           showPickupPieces: false,
         });
+      } else {
+        this.changePosition(sq);
       }
     }
   }
@@ -125,6 +127,30 @@ export default class Position extends React.Component<
       selectingSquare: null,
       showPickupPieces: false,
     });
+  }
+
+  changePosition(sq: number): void {
+    const game = klona(this.props.game);
+    const piece = game.board[sq].koma;
+    if (piece !== 0) {
+      const unPromotePiece = game.getUnPromotePiece(piece);
+      game.cap[WHITE][unPromotePiece]++;
+    }
+    const newPiece = game.board[this.state.selectingSquare].koma;
+    const newOwner = game.board[this.state.selectingSquare].owner;
+    game.board[sq] = {
+      koma: newPiece,
+      owner: newOwner,
+    };
+    game.board[this.state.selectingSquare] = {
+      koma: 0,
+      owner: 0,
+    };
+    this.setState({
+      selectingSquare: null,
+      showPickupPieces: false,
+    });
+    this.props.updateGame(game);
   }
 
   render(): JSX.Element {

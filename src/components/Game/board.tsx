@@ -250,13 +250,14 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     const piece4 = getImage(promotePiece, WHITE);
 
     return (
-      <div className="absolute p-5 bg-white" style={style}>
+      <div className="absolute z-50 p-5 bg-white" style={style}>
         <Image
           src={piece1}
           layout="intrinsic"
           width={100}
           height={100}
-          onClick={() => {
+          onClick={(event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+            event.stopPropagation();
             this.props.pickupPieceClick(false, BLACK);
           }}
         />
@@ -265,7 +266,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           layout="intrinsic"
           width={100}
           height={100}
-          onClick={() => {
+          onClick={(event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+            event.stopPropagation();
             this.props.pickupPieceClick(false, WHITE);
           }}
         />
@@ -275,7 +277,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             layout="intrinsic"
             width={100}
             height={100}
-            onClick={() => {
+            onClick={(
+              event: React.MouseEvent<HTMLImageElement, MouseEvent>
+            ) => {
+              event.stopPropagation();
               this.props.pickupPieceClick(true, BLACK);
             }}
           />
@@ -288,7 +293,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             layout="intrinsic"
             width={100}
             height={100}
-            onClick={() => {
+            onClick={(
+              event: React.MouseEvent<HTMLImageElement, MouseEvent>
+            ) => {
+              event.stopPropagation();
               this.props.pickupPieceClick(true, WHITE);
             }}
           />
