@@ -108,6 +108,7 @@ export default class Position extends React.Component<
         game={this.props.game}
         selectingCap={this.state.selectingCap}
         showPickupPieces={this.state.showPickupPieces}
+        selectingSquare={this.state.selectingSquare}
         capClick={this.capClick}
         boardClick={this.boardClick}
       />

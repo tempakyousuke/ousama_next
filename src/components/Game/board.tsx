@@ -217,6 +217,25 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     );
   }
 
+  get selectingPiece(): number {
+    return this.props.game.board[this.props.selectingSquare].koma;
+  }
+
+  get pickupPieces(): JSX.Element {
+    const style = {
+      top: 3,
+      left: 3,
+      right: 3,
+      width: this.state.squareWidth * 1.4,
+    };
+    if (this.props.selectingSquare < 45) {
+      delete style.right;
+    } else {
+      delete style.left;
+    }
+    return <div className="absolute p-5 bg-white" style={style}></div>;
+  }
+
   getCap(koma: number, owner: number, count: number): JSX.Element {
     const image = getImage(koma, owner);
     const style = {
@@ -277,6 +296,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             height={1000}
           />
           {this.boardPieces}
+          {this.props.showPickupPieces ? this.pickupPieces : ""}
         </div>
         <div
           className="relative h-10 mx-auto mt-5 sm:h-14 cap"
