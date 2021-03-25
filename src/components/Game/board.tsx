@@ -207,7 +207,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             return "";
           }
           return (
-            <div className="absolute" style={style} key={`square-${sq}`}>
+            <div className="absolute z-20" style={style} key={`square-${sq}`}>
               <Image
                 src={image}
                 className={imageClass}
@@ -335,6 +335,31 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     );
   }
 
+  get selectingSquareFill(): JSX.Element {
+    if (this.props.selectingSquare) {
+      const sq = this.props.selectingSquare;
+      const row = sq % 9;
+      const column = Math.floor(sq / 9);
+      const top = this.state.squareHeight * row + this.state.edgeHeight;
+      const left =
+        this.state.squareHeight * (8 - column) + this.state.edgeWidth - 3;
+      const style = {
+        width: this.state.squareWidth,
+        height: this.state.squareHeight,
+        top,
+        left,
+      };
+      return (
+        <div
+          className="absolute z-10 bg-lime-500 bg-opacity-50"
+          style={style}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  }
+
   render(): JSX.Element {
     return (
       <div className="w-10/12 max-w-xl mx-auto lg:w-8/12">
@@ -368,6 +393,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           />
           {this.boardPieces}
           {this.props.showPickupPieces ? this.pickupPieces : ""}
+          {this.selectingSquareFill}
         </div>
         <div
           className="relative h-10 mx-auto mt-5 sm:h-14 cap"
