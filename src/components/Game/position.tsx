@@ -41,6 +41,10 @@ export default class Position extends React.Component<
   capClick(koma: number, owner: number): void {
     const selectingCap = this.state.selectingCap;
     if (selectingCap === null) {
+      if (this.state.selectingSquare) {
+        this.putPieceToCap(this.state.selectingSquare, owner);
+        return;
+      }
       if (koma === 0) {
         return;
       }
@@ -70,6 +74,21 @@ export default class Position extends React.Component<
         },
       });
     }
+  }
+
+  putPieceToCap(sq: number, owner: number): void {
+    const game = klona(this.props.game);
+    const piece = game.getUnPromotePiece(game.board[sq].koma);
+    game.board[sq] = {
+      koma: 0,
+      owner: 0,
+    };
+    game.cap[owner][piece]++;
+    this.props.updateGame(game);
+    this.setState({
+      selectingSquare: null,
+      showPickupPieces: false,
+    });
   }
 
   boardClick(sq: number): void {
