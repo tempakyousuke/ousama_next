@@ -245,7 +245,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
   render(): JSX.Element {
     return (
-      <div className="w-10/12 mx-auto lg:w-8/12">
+      <div className="w-10/12 max-w-xl mx-auto lg:w-8/12">
         <div
           className="relative h-12 mx-auto sm:h-14 md:h-16 cap"
           onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
