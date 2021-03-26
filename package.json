@@ -24,7 +24,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^6.15.4",
-    "react-toastify": "^7.0.3"
+    "react-toastify": "^7.0.3",
+    "swr": "^0.5.4"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
