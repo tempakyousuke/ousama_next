@@ -31,7 +31,7 @@ class HiButton extends React.Component<ButtonProps, {}> {
 
   get colorClass(): string {
     if (this.props.inverted) {
-      return ` border-solid  border-2 bg-white text-${this.props.color}-${this.props.brightness} hover:bg-${this.props.color}-100`;
+      return ` border-solid border-2 bg-white text-${this.props.color}-${this.props.brightness} hover:bg-${this.props.color}-100`;
     }
     return ` text-white bg-${this.props.color}-${
       this.props.brightness
