@@ -9,7 +9,8 @@
     "start": "next start src/",
     "build-functions": "tsc",
     "serve": "firebase emulators:start --only functions,hosting",
-    "shell": "npm run build && firebase functions:shell"
+    "shell": "npm run build && firebase functions:shell",
+    "deploy-preview": "firebase hosting:channel:deploy nextjs --expires 7d"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
