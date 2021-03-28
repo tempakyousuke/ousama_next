@@ -3,7 +3,7 @@ import Link from "next/link";
 import { firestore } from "utils/firebase";
 import { AuthContext } from "context/auth";
 import { useState, useContext } from "react";
-import HiCard from "components/Card/hiCard";
+import HiCard from "components/Card/HiCard";
 
 export default function CreateList(): JSX.Element {
   const [activeTab, setTab] = useState("creating");

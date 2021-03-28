@@ -1,8 +1,8 @@
 import React from "react";
 import { Game } from "game/game";
 import { withRouter, NextRouter } from "next/router";
-import Position from "components/Game/position";
-import HiButton from "components/Button/hiButton";
+import Position from "components/Game/Position";
+import HiButton from "components/Button/HiButton";
 import { AuthContext } from "context/auth";
 import firebase, { firestore } from "utils/firebase";
 import { BLACK, WHITE } from "game/constant";

@@ -1,8 +1,8 @@
 import React from "react";
 import { AuthContext } from "context/auth";
 import { withRouter, NextRouter } from "next/router";
-import LoginForm from "components/pages/login/login";
-import SignupForm from "components/pages/login/signup";
+import LoginForm from "components/pages/login/Login";
+import SignupForm from "components/pages/login/Signup";
 
 interface WithRouterProps {
   router: NextRouter;
