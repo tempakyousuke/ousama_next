@@ -1,5 +1,5 @@
 import { AppProps } from "next/app";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import { AuthProvider } from "../context/auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
