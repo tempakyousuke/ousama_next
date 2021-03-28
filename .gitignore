@@ -38,3 +38,5 @@ functions/lib
 # emulator
 ui-debug.log
 firebase-debug.log
+
+.firebase
