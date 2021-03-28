@@ -1,6 +1,6 @@
 import menus from "./menus";
-import AccordionButton from "./accordionButton";
-import NavLink from "./navLink";
+import AccordionButton from "./AccordionButton";
+import NavLink from "./NavLink";
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { fireauth } from "utils/firebase";
