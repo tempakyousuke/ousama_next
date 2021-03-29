@@ -3,10 +3,10 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   purge: {
     content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./components/**/*.{js,ts,jsx,tsx}",
+      "./src/pages/**/*.{js,ts,jsx,tsx}",
+      "./src/components/**/*.{js,ts,jsx,tsx}",
     ],
-    optionns: {
+    options: {
       safelist: ["bg-opacity-70"],
     },
   },
