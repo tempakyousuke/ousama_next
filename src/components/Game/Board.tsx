@@ -1,7 +1,6 @@
 import React from "react";
 import { Game } from "game/game";
 import { WHITE, BLACK, OU } from "game/constant";
-import Image from "next/image";
 import { getImage } from "game/image";
 
 type BoardProps = {
@@ -154,31 +153,54 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
   get whiteCaps(): JSX.Element {
     return (
-      <div ref={this.capAreaRef} className="relative w-11/12 h-full mx-auto">
-        {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
-          const count = this.props.game.cap[WHITE][koma];
-          if (count === 0) {
-            return;
-          }
-          return this.getCap(parseInt(koma), WHITE, count);
-        })}
+      <div
+        className="relative h-6 mx-auto overflow-hidden sm:h-14 md:h-16 cap"
+        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          this.capClick(event, WHITE);
+        }}
+      >
+        <img
+          className="absolute"
+          alt="cap"
+          src="/img/board/japanese-chess-bg.jpg"
+        />
+        <div
+          ref={this.capAreaRef}
+          className="relative z-10 w-11/12 h-full mx-auto top-1 sm:top-2"
+        >
+          {Object.keys(this.props.game.cap[WHITE]).map((koma) => {
+            const count = this.props.game.cap[WHITE][koma];
+            if (count === 0) {
+              return;
+            }
+            return this.getCap(parseInt(koma), WHITE, count);
+          })}
+        </div>
       </div>
     );
   }
 
   get blackCaps(): JSX.Element {
     return (
-      <div className="relative w-11/12 h-full mx-auto">
-        {Object.keys(this.props.game.cap[BLACK]).map((koma) => {
-          if (parseInt(koma) === OU) {
-            return "";
-          }
-          const count = this.props.game.cap[BLACK][koma];
-          if (count === 0) {
-            return;
-          }
-          return this.getCap(parseInt(koma), BLACK, count);
-        })}
+      <div
+        className="relative h-6 mx-auto mt-5 overflow-hidden sm:h-14 md:h-16 cap"
+        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          this.capClick(event, BLACK);
+        }}
+      >
+        <img alt="cap" src="/img/board/japanese-chess-bg.jpg" />
+        <div className="absolute z-10 w-11/12 h-full mx-auto top-1 sm:top-2">
+          {Object.keys(this.props.game.cap[BLACK]).map((koma) => {
+            if (parseInt(koma) === OU) {
+              return "";
+            }
+            const count = this.props.game.cap[BLACK][koma];
+            if (count === 0) {
+              return;
+            }
+            return this.getCap(parseInt(koma), BLACK, count);
+          })}
+        </div>
       </div>
     );
   }
@@ -192,7 +214,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           const column = Math.floor(sqNum / 9);
           const top = this.state.squareHeight * row + this.state.edgeHeight;
           const left =
-            this.state.squareHeight * (8 - column) + this.state.edgeWidth - 3;
+            this.state.squareWidth * (8 - column) + this.state.edgeWidth;
           const style = {
             top,
             left,
@@ -200,7 +222,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             height: this.state.squareHeight,
             padding: `2px ${this.state.squareHeight * 0.05}px`,
           };
-          const imageClass = "";
+          const imgClass = "";
           const { koma, owner } = this.props.game.board[sq];
           const image = getImage(koma, owner);
           if (!koma) {
@@ -208,13 +230,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           }
           return (
             <div className="absolute z-20" style={style} key={`square-${sq}`}>
-              <Image
-                src={image}
-                className={imageClass}
-                layout="intrinsic"
-                width={100}
-                height={100}
-              />
+              <img src={image} className={imgClass} width={100} height={100} />
             </div>
           );
         })}
@@ -251,9 +267,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
     return (
       <div className="absolute z-50 p-5 bg-white" style={style}>
-        <Image
+        <img
           src={piece1}
-          layout="intrinsic"
           width={100}
           height={100}
           onClick={(event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -261,9 +276,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             this.props.pickupPieceClick(false, BLACK);
           }}
         />
-        <Image
+        <img
           src={piece2}
-          layout="intrinsic"
           width={100}
           height={100}
           onClick={(event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -272,9 +286,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           }}
         />
         {piece3 ? (
-          <Image
+          <img
             src={piece3}
-            layout="intrinsic"
             width={100}
             height={100}
             onClick={(
@@ -288,9 +301,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           ""
         )}
         {piece4 ? (
-          <Image
+          <img
             src={piece4}
-            layout="intrinsic"
             width={100}
             height={100}
             onClick={(
@@ -323,13 +335,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     }
     return (
       <div className="absolute" style={style} key={`${owner}-${koma}`}>
-        <Image
-          src={image}
-          className={imageClass}
-          layout="intrinsic"
-          width={100}
-          height={100}
-        />
+        <img src={image} className={imageClass} />
         <span className="absolute text-xs cap-count sm:text-sm">{count}</span>
       </div>
     );
@@ -341,8 +347,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
       const row = sq % 9;
       const column = Math.floor(sq / 9);
       const top = this.state.squareHeight * row + this.state.edgeHeight;
-      const left =
-        this.state.squareHeight * (8 - column) + this.state.edgeWidth - 3;
+      const left = this.state.squareWidth * (8 - column) + this.state.edgeWidth;
       const style = {
         width: this.state.squareWidth,
         height: this.state.squareHeight,
@@ -363,31 +368,15 @@ export default class Board extends React.Component<BoardProps, BoardState> {
   render(): JSX.Element {
     return (
       <div className="w-10/12 max-w-xl mx-auto lg:w-8/12">
-        <div
-          className="relative h-12 mx-auto sm:h-14 md:h-16 cap"
-          onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            this.capClick(event, WHITE);
-          }}
-        >
-          <Image
-            alt="cap"
-            src="/img/board/japanese-chess-bg.jpg"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
-          {this.whiteCaps}
-        </div>
+        {this.whiteCaps}
         <div
           ref={this.boardRef}
           className="relative mx-auto mt-5"
           onClick={this.boardClick}
         >
-          <Image
+          <img
             alt="board"
             src="/img/board/japanese-chess-b03.jpg"
-            layout="intrinsic"
-            quality={100}
             width={1000}
             height={1000}
           />
@@ -395,21 +384,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
           {this.props.showPickupPieces ? this.pickupPieces : ""}
           {this.selectingSquareFill}
         </div>
-        <div
-          className="relative h-10 mx-auto mt-5 sm:h-14 cap"
-          onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-            this.capClick(event, BLACK);
-          }}
-        >
-          <Image
-            alt="cap"
-            src="/img/board/japanese-chess-bg.jpg"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
-          {this.blackCaps}
-        </div>
+        {this.blackCaps}
         <style jsx>{`
           :global(.cap-count) {
             bottom: 0;
