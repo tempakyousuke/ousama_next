@@ -88,7 +88,7 @@ export default function CreateList(): JSX.Element {
         <div>
           {questions.map((v) => {
             return (
-              <Link href={`/create/edit/${v.id}/`} key={v.id}>
+              <Link href={`/create/${v.id}/`} key={v.id}>
                 <div className="px-2 py-3 border">
                   {v.title || "タイトル未設定"}
                 </div>
