@@ -5,7 +5,7 @@
   "main": "functions/lib/firebaseFunctions.js",
   "scripts": {
     "dev": "next src/",
-    "build": "next build src/",
+    "build": "next build src/ && next export && cp -r src/public/** out",
     "start": "next start src/",
     "build-functions": "tsc",
     "serve": "firebase emulators:start --only functions,hosting",
